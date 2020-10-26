@@ -36,3 +36,102 @@
     transform: rotate(360deg);
   }
 }
+
+.flex-container {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  border: 1px solid silver;
+  -ms-box-orient: horizontal;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -moz-flex;
+  display: -webkit-flex;
+  display: flex;
+}
+
+.nowrap  { 
+  -webkit-flex-wrap: nowrap;
+  flex-wrap: nowrap;
+}
+
+.wrap    { 
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+}  
+
+.btn {
+  width:150px;
+  padding:5px;
+}
+
+.cardroot {
+  min-width: 275;
+ border-color: darkslategray;
+ border-width: 10pt;
+}
+
+.cardbullet {
+  display: 'inline-block';
+  margin: '0 2px';
+  transform: 'scale(0.8)';
+}
+
+.cardtitle {
+  font-size: 14;
+  font-weight: bold;
+   margin: 10px;
+   color: white;
+   display: flex;
+   align-content: center;
+   background-color: darkslategray;
+   padding: 3px;
+}
+
+.cardpos {
+  margin-bottom: 12;
+}
+
+.sidenav {
+  height: 100%; /* 100% Full-height */
+  width: 10%; /* 0 width - change this with JavaScript */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Stay on top */
+  top: 60px; /* Stay at the top */
+  left: 0;
+  background-color:gray; /* Black*/
+  color: white;
+  font-weight: bold;
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding: 30px; /* Place content 60px from the top */
+  transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+}
+
+.topNav{
+  height: 60px;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: darkslategray;
+  color: white;
+  font-size: 20;
+  font-weight: bold;
+}
+
+.center {
+  margin: auto;
+  width: 100%;
+  border: 3px solid darkslategray;
+  padding: 10px;
+}
+.dashboard-content{
+  padding-top: 60px;;
+  width: 100%;
+  left:10%;
+}
+
+CSTreeView {
+  margin: 20px;
+}

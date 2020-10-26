@@ -4,7 +4,7 @@ import {NumericAxis} from "scichart/Charting/Visuals/Axis/NumericAxis";
 import {XyDataSeries} from "scichart/Charting/Model/XyDataSeries";
 import {FastLineRenderableSeries} from "scichart/Charting/Visuals/RenderableSeries/FastLineRenderableSeries";
 
-class Line extends React.Component  {
+class Scatter extends React.Component  {
 
   async componentDidMount(){
     initSciChart();
@@ -62,5 +62,5 @@ async function initSciChart(){
   // That's it! You just created your first SciChartSurface!
 };
 
-export default Line;
+export default Scatter;
 
