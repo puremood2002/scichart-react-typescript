@@ -61,7 +61,7 @@ import {ChartProps} from './types';
 
   function load() {
     console.log("app component did mount");
-    //  dispatch(FetchCharts());
+     dispatch(FetchCharts());
     }
 
   //  const onSelectCsNode = (name : any)=>{
@@ -80,15 +80,19 @@ import {ChartProps} from './types';
   // }
 
   const containerstyle={
-    width:"100%",
-    height:"90%"
+    // width:"100%",
+    // height:"90%",
+    // top:"60px", 
+    // left:"100px", 
+    // position:"fixed" as "fixed"
   };
 
   const dashboardcontentstyle = {
-       paddingTop: "60px",
+       top: "60px",
        height:"100%",  
-       left:"10%",
-       backgroundColor:"blue"
+       left:"170px",
+       width:"100%",
+       position:"fixed" as "fixed"
   };
 
 
@@ -98,11 +102,11 @@ import {ChartProps} from './types';
     backgroundColor:"gray",
     color: "white",
     fontWeight:"bold" as "bold",
-    overflowX: "hidden" as "hidden",
+    overFlowX: "hidden" as "hidden",
     padding: "30px",
     transition: "0.5s",
     height: "100%", 
-    width: "10%",
+    width: "100px",
     position: "fixed" as "fixed",
     zIndex: 1
   }
@@ -135,7 +139,7 @@ import {ChartProps} from './types';
         <header style={headerstyle}>
           Dashboard Prototype
         </header>
-        <main >
+        <main style={containerstyle}>
             {error &&
             <FlashMessage message={topState}></FlashMessage>
             }
@@ -145,7 +149,7 @@ import {ChartProps} from './types';
               onSelectCsNode = {onSelectCsNode}
             />
           </aside>
-          <div >
+          <div style={dashboardcontentstyle}>
             <Dashboard 
               showNewCardForm={true}
               charts={charts}

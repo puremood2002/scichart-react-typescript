@@ -81,7 +81,7 @@ const ChartsList: React.FC<ChartListProps> = props =>
     switch(ct)
     {
         case 'line':
-          return <div  draggable="true"  onDragStart={drag} onDrop={drop} onDragOver={allowDrop}>
+          return <div key="1" draggable="true"  onDragStart={drag} onDrop={drop} onDragOver={allowDrop}>
                 <div className="cardtitle">Bubble</div>
                 <Card className="cardroot">
                 <CardContent>
@@ -92,7 +92,7 @@ const ChartsList: React.FC<ChartListProps> = props =>
             break;
         case 'bubble':
           console.log("create bubble");
-             return <div  draggable="true"  onDragStart={drag} onDrop={drop} onDragOver={allowDrop}>
+             return <div key="2" draggable="true"  onDragStart={drag} onDrop={drop} onDragOver={allowDrop}>
                 <div className="cardtitle">Bubble</div>
                 <Card className="cardroot">
                 <CardContent>
@@ -104,7 +104,7 @@ const ChartsList: React.FC<ChartListProps> = props =>
         case 'bar':
             break;
         case 'mountain':
-            return <div  draggable="true" onDragStart={drag} onDrop={drop} onDragOver={allowDrop}>
+            return <div key="3" draggable="true" onDragStart={drag} onDrop={drop} onDragOver={allowDrop}>
                 <div className="cardtitle">Mountain</div>
                 <Card className="cardroot">
                 <CardContent>
@@ -114,7 +114,8 @@ const ChartsList: React.FC<ChartListProps> = props =>
             </div>
           break;
         case 'scatter':
-             return <div draggable="true"  onDragStart={drag} onDrop={drop} onDragOver={allowDrop}>
+          console.log("creating scatter chart");
+             return <div key="4" draggable="true"  onDragStart={drag} onDrop={drop} onDragOver={allowDrop}>
                   <div className="cardtitle">Scatter</div>
                   <Card className="cardroot">
                       <CardContent>
@@ -124,7 +125,7 @@ const ChartsList: React.FC<ChartListProps> = props =>
                 </div>
             break;
         case 'candle':
-             return  <div draggable="true"  onDragStart={drag} onDrop={drop} onDragOver={allowDrop}>
+             return  <div key="5" draggable="true"  onDragStart={drag} onDrop={drop} onDragOver={allowDrop}>
                 <div className="cardtitle">Candle</div>
                 <Card className="cardroot">
                     <CardContent>

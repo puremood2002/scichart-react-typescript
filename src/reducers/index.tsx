@@ -12,8 +12,8 @@ import {csCharts} from '../actions';
 
 
 const initialState : TopState= {
-    charts:csCharts[0].chartsProps as ChartProps[] ,
-    csCharts: csCharts as CsChartProps[],
+    charts:[] as ChartProps[] ,
+    csCharts: [] as CsChartProps[],
     isLoading: false,
     error: null as any,
   };

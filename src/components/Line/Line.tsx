@@ -11,7 +11,7 @@ import { useEffect } from 'react';
 
     useEffect(() => {
       console.log("in line, before initscichart");
-      initSciChart();
+      initLineSciChart();
       console.log("in line, after initscichart")
    });
 
@@ -28,7 +28,7 @@ import { useEffect } from 'react';
    return element;
 };
   
-  async function initSciChart()
+  async function initLineSciChart()
   {
     console.log("start init scichart");
     // Below find a trial / BETA key for SciChart.js.

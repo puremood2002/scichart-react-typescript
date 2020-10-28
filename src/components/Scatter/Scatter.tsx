@@ -2,13 +2,15 @@ import * as React from "react";
 import {SciChartSurface} from "scichart/Charting/Visuals/SciChartSurface";
 import {NumericAxis} from "scichart/Charting/Visuals/Axis/NumericAxis";
 import {XyDataSeries} from "scichart/Charting/Model/XyDataSeries";
-import {FastLineRenderableSeries} from "scichart/Charting/Visuals/RenderableSeries/FastLineRenderableSeries";
+import {XyScatterRenderableSeries} from "scichart/Charting/Visuals/RenderableSeries/XyScatterRenderableSeries";
+import { EllipsePointMarker } from "scichart/Charting/Visuals/PointMarkers/EllipsePointMarker";
+import {EStrokePaletteMode,IPointMarkerPaletteProvider,TPointMarkerArgb,} from "scichart/Charting/Model/IPaletteProvider";
 import { useEffect } from 'react';
-
+import { NumberRange } from "scichart/Core/NumberRange";
  const Scatter: React.FC<any> = props => 
  {
     useEffect(() => {
-      initSciChart();
+      drawScatterChart();
    });
 
    const styles = {
@@ -24,9 +26,9 @@ import { useEffect } from 'react';
    return element;
 };
   
-  async function initSciChart()
+  async function drawScatterChart()
   {
-    console.log("start init scichart");
+    console.log("start init scatter scichart");
     // Below find a trial / BETA key for SciChart.js.
     // This Expires in 30 days - or 14th November 2020
     // Set this license key once in your app before calling SciChartSurface.create, e.g.
@@ -37,40 +39,34 @@ import { useEffect } from 'react';
     // instance must be passed to other types that exist on the same surface.
     const {sciChartSurface, wasmContext} = await SciChartSurface.create("scichart-root-scatter");
 
-    console.log("surface created")
+    console.log("scatter urface created")
 
-    // Create an X,Y Axis and add to the chart
-    const xAxis = new NumericAxis(wasmContext);
-    const yAxis = new NumericAxis(wasmContext);
-    
-    sciChartSurface.xAxes.add(xAxis);
-    sciChartSurface.yAxes.add(yAxis);
+    sciChartSurface.xAxes.add(new NumericAxis(wasmContext));
+    sciChartSurface.yAxes.add(new NumericAxis(wasmContext, { growBy: new NumberRange(0.05, 0.05) }));
 
-    for (let seriesCount = 0; seriesCount < 100; seriesCount++) {        
-      const xyDataSeries = new XyDataSeries(wasmContext);
+    // Create a Scatter Series with EllipsePointMarker
+    // Multiple point-marker types are available including Square, Triangle, Cross and Sprite (custom)
+    const scatterSeries = new XyScatterRenderableSeries(wasmContext, {
+        pointMarker: new EllipsePointMarker(wasmContext, {
+            width: 7,
+            height: 7,
+            strokeThickness: 1,
+            fill: "steelblue",
+            stroke: "LightSteelBlue",
+        })
+        // Optional: PaletteProvider feature allows coloring per-point based on a rule
+    });
 
-      const opacity = (1 - ((seriesCount / 120))).toFixed(2);
-
-      // Populate with some data
-      for(let i = 0; i < 10000; i++) {
-          xyDataSeries.append(i, Math.sin(i* 0.01) * Math.exp(i*(0.00001*(seriesCount+1))));
-      }
-
-      // Add and create a line series with this data to the chart
-      // Create a line series        
-      const lineSeries = new FastLineRenderableSeries(wasmContext, {
-          dataSeries: xyDataSeries, 
-          stroke: `rgba(176,196,222,${opacity})`,
-          strokeThickness:2
-      });
-      sciChartSurface.renderableSeries.add(lineSeries);
-  
-      sciChartSurface.zoomExtents();
-      return { sciChartSurface, wasmContext };
-    // That's it! You just created your first SciChartSurface!
+    // Create some Xy data and assign to the Scatter Series
+    const dataSeries = new XyDataSeries(wasmContext);
+    for (let i = 0; i < 10; i++) {
+        dataSeries.append(i, Math.sin(i * 0.1));
+    }
+    scatterSeries.dataSeries = dataSeries;
+    sciChartSurface.renderableSeries.add(scatterSeries);
+    sciChartSurface.zoomExtents();
+    return { sciChartSurface, wasmContext };
   }
-}
-
 
 export default Scatter;
 
