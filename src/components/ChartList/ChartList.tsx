@@ -8,14 +8,14 @@ import Candle from '../Candle';
 import '../../App.css'
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import {ChartProps} from '../../types';
+import {ChartProps, ChartListProps} from '../../types';
 
-const ChartList =( props : any) => {
+const ChartList =( props : ChartListProps) => {
     return (
         <div>
-            <div>
+            {/* <div>
                {props.type}
-           </div>
+           </div> */}
             <div  className="flex-container wrap dashboard" id="chartslist">        
             {props.charts.map((chart : ChartProps) => (
                 createChart(chart.type,chart.color1, chart.color2, chart.title )

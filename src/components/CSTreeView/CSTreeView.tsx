@@ -5,58 +5,103 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import type {CSTreeViewProps} from '../../types';
 
-class CSTreeView extends React.Component<CSTreeViewProps> {
-   data = {
-    id: 'root',
-    name: 'CS-1',
-    children: [
-      {
-        id: '1',
-        name: 'Rev - 1',
-      },
-      {
-        id: '3',
-        name: 'Rev - 2',
-      },
-    ],
-  };
-  constructor(props : any)
-    {
-        super(props);
-        this.state={
-        };
-    }
 
-    onNodeSelect = (e : any)=>{
-        if(e.target.textContent)
-        {
-          if(e.target.textContent==="rev-1" || e.target.textContent=="rev-2")
-          {
-            this.props.onSelectCsNode(e.target.textContent); 
-          }
-        }      
+const CSTreeView : React.FC<CSTreeViewProps> = props => 
+{
+  const onNodeSelect= (e : any)=>{
+    if(e.target.textContent)
+    {
+      if(e.target.textContent==="rev-1" || e.target.textContent=="rev-2")
+      {
+        props.onSelectCsNode(e.target.textContent); 
       }
-     
-  render() {
-    return(
-      <div>
-      <TreeView
-      defaultCollapseIcon={<ExpandMoreIcon />}
-      defaultExpandIcon={<ChevronRightIcon />}
-      onNodeSelect={this.onNodeSelect}
-        >
+    }      
+  };
+  const st = {
+        margin:"20px"
+  };
+
+  const element = <div><TreeView style={st}
+    defaultCollapseIcon={<ExpandMoreIcon />}
+    defaultExpandIcon={<ChevronRightIcon />}
+    onNodeSelect={onNodeSelect}
+    >
       <TreeItem nodeId="1" label="cs-1">
-        <TreeItem nodeId="2" label="rev-1" />
-        <TreeItem nodeId="3" label="rev-2" />
+      <TreeItem nodeId="2" label="rev-1" />
+      <TreeItem nodeId="3" label="rev-2" />
       </TreeItem>
       <TreeItem nodeId="5" label="cs-2">
-        <TreeItem nodeId="6" label="rev-1" />
-        </TreeItem>
+      <TreeItem nodeId="6" label="rev-1" />
+      </TreeItem>
     </TreeView>
+  </div>;
 
-  </div>);
-  }
-}
+    
+
+  return element;
+      };
+
+      export default CSTreeView;
+      
+
+// class CSTreeView extends React.Component<CSTreeViewProps> {
+//    data = {
+//     id: 'root',
+//     name: 'CS-1',
+//     children: [
+//       {
+//         id: '1',
+//         name: 'Rev - 1',
+//       },
+//       {
+//         id: '3',
+//         name: 'Rev - 2',
+//       },
+//     ],
+//   };
+//   constructor(props : any)
+//     {
+//         super(props);
+//         this.state={
+//         };
+//     }
+
+//     onNodeSelect = (e : any)=>{
+//         if(e.target.textContent)
+//         {
+//           if(e.target.textContent==="rev-1" || e.target.textContent=="rev-2")
+//           {
+//             this.props.onSelectCsNode(e.target.textContent); 
+//           }
+//         }      
+//       }
+
+//       styles = {
+//         csTreeView:{
+//           margin: 20
+//         }
+//       };
+     
+//   render() {
+//     return(
+//       <div>
+//       <TreeView 
+//       defaultCollapseIcon={<ExpandMoreIcon />}
+//       defaultExpandIcon={<ChevronRightIcon />}
+//       onNodeSelect={this.onNodeSelect}
+//         >
+//       <TreeItem nodeId="1" label="cs-1">
+//         <TreeItem nodeId="2" label="rev-1" />
+//         <TreeItem nodeId="3" label="rev-2" />
+//       </TreeItem>
+//       <TreeItem nodeId="5" label="cs-2">
+//         <TreeItem nodeId="6" label="rev-1" />
+//         </TreeItem>
+//     </TreeView>
+
+//   </div>);
+//   }
+// }
 
 
-export default CSTreeView;
+// export default CSTreeView;

@@ -1,74 +1,164 @@
 import * as React from "react";
 import {Component} from 'react';
-import {connect, useStore} from 'react-redux';
-import {CreateChart, FetchCharts, SlectCsNode} from './actions'
-import FlashMessage from './components/FlashMessage'
+import {connect} from 'react-redux';
+// import {CreateChart, FetchCharts, SlectCsNode} from './actions';
+import {FetchCharts, CreateChart, SelectNode} from './store/actionCreators';
+import FlashMessage from './components/FlashMessage';
 import './App.css';
 import Dashboard from './components/Dashboard/Dashboard';
 import CSTreeView from './components/CSTreeView';
-import { stringify } from "querystring";
-import { AnyRecordWithTtl } from "dns";
-import { AnyAction } from "redux";
-import { ThunkDispatch } from "redux-thunk";
-import type {TopState} from './types';
-import {useDispatch, useSelector} from "react-redux";
+import type {TopState, CsChartProps} from './types';
+import {useDispatch, useSelector, shallowEqual} from "react-redux";
+import {Dispatch} from 'redux';
+import { useEffect } from 'react';
+import {ChartProps} from './types';
+
+  const App: React.FC = () => {
+    console.log(" starting App state");
+
+  const error:  any = useSelector(
+    (state: TopState) => state.error,
+    shallowEqual
+  );
+
+  const charts:  ChartProps[] = useSelector(
+    (state: TopState) => state.charts,
+    shallowEqual
+  );
+
+  console.log(charts);
+
+  const csCharts: CsChartProps[] = useSelector(
+    (state: TopState) => state.csCharts,
+    shallowEqual
+  );
+
+  const isLoading : any=useSelector(
+    (state:TopState) =>state.isLoading,
+    shallowEqual
+  );
+
+  const topState :any = useSelector(
+    (state:TopState) =>state,
+    shallowEqual
+  );
+
+  const dispatch: Dispatch<any> = useDispatch();
+
+  const onCreateChart = React.useCallback(
+    ({title, description, charttype, color1, color2} :
+      {title: any, description: any, charttype: any, color1: any, color2: any}) => 
+      dispatch(CreateChart({title, description, charttype, color1, color2})),
+    [dispatch]
+  );
+
+  const onSelectCsNode = React.useCallback(
+    (name:string) => 
+      dispatch(SelectNode(name)),
+    [dispatch]
+  );
 
 
-class App extends Component<TopState, {}> {
-  componentDidMount() {
-    FetchCharts();
-  }
-
-  onCreateChart = ({title, description, type, color1, color2} : { title: string, description: string, type:string, color1:string, color2:string})=>{
-    CreateChart({title, description, type, color1, color2});
-  }
-
-  onSelectCsNode = (name : any)=>{
-    SlectCsNode(name);
-  }
-    
-   onCreateTask = ({title, description} : {title:string, description:string}) =>{
-    //  this.props.dispatch.CreateTask({title, description}));
+  function load() {
+    console.log("app component did mount");
+    //  dispatch(FetchCharts());
     }
-    onStatusChange=(id:any, status:any)=>{
-      // this.props.dispatch(EditTask(id, {status}));
-    }
-   render (){
-    return (
-      <div>
-      <header className="topNav center">
-        Dashboard Prototype
-      </header>
-      <main className='container'>
-          {this.props.error &&
-          <FlashMessage message={this.props}></FlashMessage>
-          }
-        <aside className="sidenav">
-          <CSTreeView  
-             csCharts =  {this.props.csCharts}
-             onSelectCsNode = {this.onSelectCsNode}
-          />
-        </aside>
-        <div className="dashboard-content">
-          <Dashboard 
-            showNewCardForm={true}
-            charts={this.props.charts}
-            isLoading={this.props.isLoading}
-            onCreateChart = {this.onCreateChart}>
-          </Dashboard>
-        </div>  
-      </main>
+
+  //  const onSelectCsNode = (name : any)=>{
+  //     // dispatch(SlectCsNode(name));
+  //   }
+
+    useEffect(() => {
+        load();
+    });
+
+  // const onCreateTask = ({title, description} : {title:string, description:string}) =>{
+  //   dispatch(CreateTask({title, description}));
+  // }
+  // const onStatusChange=(id:any, status:any)=>{
+  //    dispatch(EditTask(id, {status}));
+  // }
+
+  const containerstyle={
+    width:"100%",
+    height:"90%"
+  };
+
+  const dashboardcontentstyle = {
+       paddingTop: "60px",
+       height:"100%",  
+       left:"10%",
+       backgroundColor:"blue"
+  };
+
+
+  const sidestyle = {
+    top: "60px",
+    left: 0,
+    backgroundColor:"gray",
+    color: "white",
+    fontWeight:"bold" as "bold",
+    overflowX: "hidden" as "hidden",
+    padding: "30px",
+    transition: "0.5s",
+    height: "100%", 
+    width: "10%",
+    position: "fixed" as "fixed",
+    zIndex: 1
+  }
+
+  const topnavstyle = {
+    height: "60px",
+    width: "100%",
+    position: "fixed" as "fixed",
+    top: 0,
+    left: 0,
+    backgroundColor: "darkslategray",
+    color:" white",
+    fontSize: 20,
+    fontWeight: "bold" as "bold"
+  }
+
+  const centerstyle={
+    margin: "auto" as "auto",
+    width: "100%",
+    border: "3px solid darkslategray",
+    padding: "10px"
+  }
+
+  const headerstyle={
+    ...topnavstyle,
+    ...centerstyle
+  }
+    const element = 
+    <div id="topapp">
+        <header style={headerstyle}>
+          Dashboard Prototype
+        </header>
+        <main >
+            {error &&
+            <FlashMessage message={topState}></FlashMessage>
+            }
+          <aside style={sidestyle}>
+            <CSTreeView 
+              ccharts =  {csCharts}
+              onSelectCsNode = {onSelectCsNode}
+            />
+          </aside>
+          <div >
+            <Dashboard 
+              showNewCardForm={true}
+              charts={charts}
+              isLoading={isLoading}
+              onCreateChart = {onCreateChart}>
+            </Dashboard>
+          </div>  
+        </main>
       </div>
-    );
-  }
-}
-
-function mapStateToProps(state : TopState) : TopState {
-  const { charts, csCharts, isLoading, error } = state
-  return state;
-}
-
-export default connect(mapStateToProps)(App);
+      
+   
+    return (element);
+};
 
 
-// export default App;
+export default App;

@@ -3,25 +3,35 @@ import React = require("react");
 
 export interface TopState {
     charts:  ChartProps[] ,
-    csCharts: any[],
+    csCharts: CsChartProps[],
     isLoading: boolean,
     error:  any,
   }
 
-  export interface CSTreeViewProps{
-      csCharts: ChartProps[],
-      onSelectCsNode: any,
-  }
-  
   export interface DashboardProps{
-    showNewCardForm: any,
+    showNewCardForm: boolean,
     charts : ChartProps[],
     isLoading: boolean,
     onCreateChart: any
   }
 
   export interface DashboardState{
-    showNewCardsForm : boolean
+    showNewCardsForm : boolean,
+    charts : ChartProps[],
+  }
+
+  export interface ChartListProps{
+    //   type: string,
+      charts: ChartProps[]
+  }
+
+  export interface CSTreeViewProps{
+    onSelectCsNode: any,
+    ccharts: CsChartProps[]
+  }
+
+  export interface ChartListState{
+    charts : ChartProps[],
   }
 
   export interface SettingDialogProps {
@@ -40,37 +50,40 @@ export interface TopState {
   }
   
   export interface ChartProps{
-      type:string,
-    chart : string,
+    type:string,
+    // chart : string,
     color1 : string, 
-     color2 : string, 
-     title : string, 
-     id: any
+    color2 : string, 
+    title : string, 
+    id: any,
+    description: string,
+    status: string
   }
 
-//   export interface ChatState {
-//     messages: Message[]
-//   }
+  export interface CsChartProps{
+      name: string, 
+      chartsProps : ChartProps[]
+  }
+  
+  
+  export type FetchChartsSucceedAction ={
+        type: string,
+        charts: ChartProps[]
+  };
 
-//   export interface SystemState {
-//     loggedIn: boolean
-//     session: string
-//     userName: string
-//   }
+  export type CreateChartAction = {
+      type: string,
+      title: any,
+      description: any,
+      charttype: any,
+      color1:any,
+      color2: any
+  }
 
-//     export const SEND_MESSAGE = 'SEND_MESSAGE'
-//     export const DELETE_MESSAGE = 'DELETE_MESSAGE'
-
-//     interface SendMessageAction {
-//     type: typeof SEND_MESSAGE
-//     payload: Message
-//     }
-
-//     interface DeleteMessageAction {
-//     type: typeof DELETE_MESSAGE
-//     meta: {
-//         timestamp: number
-//     }
-//     }
-
-// export type ChatActionTypes = SendMessageAction | DeleteMessageAction
+  export type SelectNodeAction = {
+        type: string,
+        name :string
+  };
+ export type FetchSucceededDispatchType = (args: FetchChartsSucceedAction) => FetchChartsSucceedAction;
+ export type CreateChartDispatchType = (args : CreateChartAction) => CreateChartAction;
+ export type SelectNodeDispatchType = (args: SelectNodeAction) => SelectNodeAction;

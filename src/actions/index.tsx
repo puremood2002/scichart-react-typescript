@@ -1,15 +1,18 @@
 import * as api from '../api';
-import {ChartProps} from '../types';
+import type {CsChartProps, ChartProps} from '../types';
+
 let _id=1;
 
 export function uniqueId()
 {
     return _id++;
 }
-const csCharts=
-    [{
+
+export const csCharts : CsChartProps[]
+    = [
+    {
         name:"rev-1",
-        charts:[
+        chartsProps: [
             {
               id:uniqueId(),
               type:'line',
@@ -64,10 +67,11 @@ const csCharts=
               description:'read css official doc',
               status:"Unstarted"
             },
-          ]},
+          ]
+        },
         {
         name:"rev-2",
-        charts:[
+        chartsProps:[
             {
               id:uniqueId(),
               type:'line',
@@ -99,7 +103,7 @@ const csCharts=
     }];
 
 
-export function FetchChartsSucceed(charts : any)
+export function FetchChartsSucceed(charts : ChartProps[])
 {
     return {
         type: 'FETCH_CHARTS_SUCCEEDED',
@@ -138,7 +142,7 @@ export function SelectNode(name : string)
             return {
                 type:"SELECT_CS_NODE",
                 payload:{
-                charts: n.charts
+                charts: n.chartsProps
                 }
             };
         }
@@ -179,25 +183,25 @@ function fetchChartsStarted() {
         };
 }
     
+
 export function FetchCharts()
     {
-        console.log("start fetching charts...")
-        return  (dispatch: (arg0: { type: any; payload: any; }) => void) =>
-            // {
-                // console.log("in dispatch, before api");
-                // api
-                // .fetchCharts() 
-                // .then((resp: any) => {
-                // // setTimeout(() => { 1 // dispatch(fetchTasksSucceeded(resp.data)); 1 // }, 2000); 1 
-                //      throw new Error('Oh noes! Unable to fetch tasks!');
-                // })
-                // .catch((err: any) => {
-                //     console.log("dispatch fetchchartsucceeded");
-                // //dispatch(FetchTaskFailed(err.message));
-                // dispatch(FetchChartsSucceed(csCharts[0].charts));
-                // });
-                dispatch(FetchChartsSucceed(csCharts[0].charts));
-        // }
+        return  (dispatch: (arg0: { type: string; payload: { charts: any; }; }) => void) =>
+            {
+                console.log("in dispatch, before api");
+                api
+                .fetchCharts() 
+                .then((resp: any) => {
+                // setTimeout(() => { 1 // dispatch(fetchTasksSucceeded(resp.data)); 1 // }, 2000); 1 
+                     throw new Error('Oh noes! Unable to fetch tasks!');
+                })
+                .catch((err: any) => {
+                    console.log("dispatch fetchchartsucceeded");
+                //dispatch(FetchTaskFailed(err.message));
+                dispatch(FetchChartsSucceed(csCharts[0].chartsProps));
+                });
+                dispatch(FetchChartsSucceed(csCharts[0].chartsProps));
+         }
     }
 
     

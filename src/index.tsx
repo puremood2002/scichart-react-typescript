@@ -23,16 +23,18 @@ import * as ReactDOM from 'react-dom';
 import App from './App';
 // import * as serviceWorker from './serviceWorker';
 import {Provider} from 'react-redux';
-import {createStore, applyMiddleware} from 'redux';
-import {devToolsEnhancer, composeWithDevTools} from 'redux-devtools-extension';
-import charts from './reducers';
+import { createStore, applyMiddleware, Store } from "redux";;
 import thunk from 'redux-thunk';
+import { TopState } from './types';
+import reducer from "./reducers";
 
-const store = createStore(
-  charts,
-  composeWithDevTools(applyMiddleware(thunk))
-  );
 
+const store: Store<TopState, any> & {
+    dispatch: any;
+  } = createStore(reducer, applyMiddleware(thunk));
+  
+  console.log(reducer);
+  
   ReactDOM.render(
     <Provider store={store}>
       <App />

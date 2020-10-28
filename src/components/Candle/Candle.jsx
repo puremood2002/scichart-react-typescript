@@ -1,12 +1,12 @@
-import "./Candle.css";
-import React from "react";
+// import "./Candle.css";
+// import React from "react";
 
-function template() {
-  return (
-    <div className="candle">
-      <h1>Candle</h1>
-    </div>
-  );
-};
+// function template() {
+//   return (
+//     <div className="candle">
+//       <h1>Candle</h1>
+//     </div>
+//   );
+// };
 
-export default template;
+// export default template;

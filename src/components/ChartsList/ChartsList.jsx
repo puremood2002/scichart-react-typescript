@@ -1,10 +1,10 @@
-// import "./Bubble.css";
+// import "./ChartsList.css";
 // import React from "react";
 
 // function template() {
 //   return (
-//     <div className="bubble">
-//       <h1>Bubble</h1>
+//     <div className="charts-list">
+//       <h1>ChartsList</h1>
 //     </div>
 //   );
 // };
