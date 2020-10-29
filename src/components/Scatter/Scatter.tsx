@@ -13,10 +13,10 @@ const did = Math.floor( Math.random()*100);
 
 const Scatter: React.FC<ChartComponentProps> = props => 
  {
-    const divid = "scichart-root-scatter"+did;
-    console.log("scatter div id ="+divid);
+  const chartId = `scichart-candle${props.id}`;
+
     useEffect(() => {
-      drawScatterChart(props.color1);
+      drawScatterChart(props.color1, chartId);
    });
 
    const styles = {
@@ -27,15 +27,13 @@ const Scatter: React.FC<ChartComponentProps> = props =>
   };
 
    const element = 
-    <div id={divid} style={styles.div}></div>;
+    <div id={chartId} style={styles.div}></div>;
 
    return element;
 };
   
-  async function drawScatterChart(color1:string)
+  async function drawScatterChart(color1:string, chartId:string)
   {
-    const divid = "scichart-root-scatter"+did;
-    console.log("scatter div id in draw ="+divid);
 
     // console.log("start init scatter scichart");
     // Below find a trial / BETA key for SciChart.js.
@@ -46,7 +44,7 @@ const Scatter: React.FC<ChartComponentProps> = props =>
     // Create the SciChartSurface in the div 'scichart-root'
     // The SciChartSurface, and webassembly context 'wasmContext' are paired. This wasmContext
     // instance must be passed to other types that exist on the same surface.
-    const {sciChartSurface, wasmContext} = await SciChartSurface.create(divid);
+    const {sciChartSurface, wasmContext} = await SciChartSurface.create(chartId);
 
     // console.log("scatter urface created")
 

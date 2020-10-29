@@ -8,11 +8,10 @@ import {ChartComponentProps} from "../../types";
 
  const Line: React.FC<ChartComponentProps> = props => 
  {
-    console.log("In line component");
-
+  const chartId = `scichart-line${props.id}`;
     useEffect(() => {
       // console.log("in line, before initscichart");
-      initLineSciChart(props.color1);
+      initLineSciChart(props.color1, chartId);
       // console.log("in line, after initscichart")
    });
 
@@ -24,13 +23,14 @@ import {ChartComponentProps} from "../../types";
   };
 
    const element = 
-    <div id="scichart-root-line" style={styles.div}></div>;
+    <div id={chartId} style={styles.div}></div>;
 
    return element;
 };
   
-  async function initLineSciChart(color1 : string)
+  async function initLineSciChart(color1 : string, chartId:string )
   {
+
     // console.log("start init scichart");
     // Below find a trial / BETA key for SciChart.js.
     // This Expires in 30 days - or 14th November 2020
@@ -40,7 +40,7 @@ import {ChartComponentProps} from "../../types";
     // Create the SciChartSurface in the div 'scichart-root'
     // The SciChartSurface, and webassembly context 'wasmContext' are paired. This wasmContext
     // instance must be passed to other types that exist on the same surface.
-    const {sciChartSurface, wasmContext} = await SciChartSurface.create("scichart-root-line");
+    const {sciChartSurface, wasmContext} = await SciChartSurface.create(chartId);
 
     // console.log("surface created")
 

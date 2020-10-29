@@ -26,8 +26,10 @@ import {ChartComponentProps} from "../../types";
  const Mountain: React.FC<ChartComponentProps> = props => 
  {
 
+  const chartId = `scichart-candle${props.id}`;
+
     useEffect(() => {
-      initSciChart(props.color2, props.color2);
+      initSciChart(props.color2, props.color2, chartId);
    });
 
    const styles = {
@@ -38,15 +40,15 @@ import {ChartComponentProps} from "../../types";
   };
 
    const element = 
-    <div id="scichart-root-mountain" style={styles.div}></div>;
+    <div id={chartId} style={styles.div}></div>;
 
    return element;
 };
   
-  async function initSciChart(color1:string, color2:string)
+  async function initSciChart(color1:string, color2:string, chartId:string)
   {
       // Create a SciChartSurface
-      const { wasmContext, sciChartSurface } = await SciChartSurface.create("scichart-root-mountain");
+      const { wasmContext, sciChartSurface } = await SciChartSurface.create(chartId);
 
       // Create an XAxis and YAxis
       sciChartSurface.xAxes.add(

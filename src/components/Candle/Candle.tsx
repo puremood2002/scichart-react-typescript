@@ -31,10 +31,11 @@ const dateValues=[new Date('2012.08.10').getTime() / 1000,new Date('2012.08.11')
 new Date('2012.08.13').getTime() / 1000,new Date('2012.08.14').getTime() / 1000, new Date('2012.08.15').getTime() / 1000]
  const Candle: React.FC<ChartComponentProps> = props => 
  {
-    const divid = "scichart-root-candle"+did;
+  const chartId = `scichart-candle${props.id}`;
+
 
     useEffect(() => {
-      initSciChart(props.color1, props.color2);
+      initSciChart(props.color1, props.color2, chartId);
    });
 
    const styles = {
@@ -45,16 +46,14 @@ new Date('2012.08.13').getTime() / 1000,new Date('2012.08.14').getTime() / 1000,
   };
 
    const element = 
-    <div id={divid} style={styles.div}></div>;
+    <div id={chartId} style={styles.div}></div>;
 
    return element;
 };
   
-  async function initSciChart(color1 : string, color2: string)
+  async function initSciChart(color1 : string, color2: string, chartId:string)
   {
-    const divid = "scichart-root-candle"+did;
-
-    const { sciChartSurface, wasmContext } = await SciChartSurface.create(divid);
+    const { sciChartSurface, wasmContext } = await SciChartSurface.create(chartId);
 
     // Add an XAxis of type CategoryAxis - which collapses gaps in stock market data
     const xAxis = new CategoryAxis(wasmContext);

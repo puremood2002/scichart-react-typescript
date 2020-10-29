@@ -66,6 +66,7 @@ export interface TopState {
   }
   
   export interface ChartComponentProps{
+    id:any,
     color1: string,
     color2: string
   }

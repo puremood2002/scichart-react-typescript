@@ -12,13 +12,15 @@ import { XyzDataSeries } from "scichart/Charting/Model/XyzDataSeries";
 import { useEffect } from 'react';
 import {ChartComponentProps} from '../../types';
 
+
 const did = Math.random();
+
  const Bubble: React.FC<ChartComponentProps> = props => 
  {
-  const divid = "scichart-root-bubble"+did;
+  const chartId = `scichart-bubble${props.id}`;
     useEffect(() => {
-      initBubbleSciChart(props.color1);
-    });
+      initBubbleSciChart(props.color1, chartId);
+   });
 
     
   const styles = {
@@ -28,17 +30,17 @@ const did = Math.random();
   }};
 
    const element = 
-    <div id={divid} style={styles.div}></div>;
+    <div id={chartId} style={styles.div}></div>;
 
    return element;
 };
 
-async function initBubbleSciChart(color1:string)
+
+async function initBubbleSciChart(color1:string, chartId:string)
 {
-  const divid = "scichart-root-bubble"+did;
 
   // Create a SciChartSurface with X,Y Axis
-  const { sciChartSurface, wasmContext } = await SciChartSurface.create(divid);
+  const { sciChartSurface, wasmContext } = await SciChartSurface.create(chartId);
   sciChartSurface.xAxes.add(new NumericAxis(wasmContext));
   sciChartSurface.yAxes.add(new NumericAxis(wasmContext, { growBy: new NumberRange(0.05, 0.05) }));
 
@@ -89,9 +91,7 @@ async function initBubbleSciChart(color1:string)
 
   sciChartSurface.zoomExtents();
   return { sciChartSurface, wasmContext };
-}
-
-  
+};
 
 export default Bubble;
 

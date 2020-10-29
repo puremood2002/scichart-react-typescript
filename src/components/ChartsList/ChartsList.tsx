@@ -21,6 +21,8 @@ const ChartsList: React.FC<ChartListProps> = props =>
       shallowEqual
     );
 
+    console.log(333, "charts.length", charts.length);
+
 
     // console.log("ChartListCharts from state ");
     // console.log(charts);
@@ -82,30 +84,31 @@ const ChartsList: React.FC<ChartListProps> = props =>
       return idd;
     };
 
-  const createChart = (c : ChartProps) =>
+  const createChart = (c : ChartProps, index: number) =>
   {
     let ct = c.type;
-    // console.log("in create chart, type = ");
+    console.log(334, "in create chart, type = ", c);
     // console.log(ct);
+    let idx = uniqueId();
     switch(ct)
     {
         case 'line':
-          return <div key={uniqueId()} draggable="true"  onDragStart={drag} onDrop={drop} onDragOver={allowDrop}>
+          return <div key={idx} draggable="true"  onDragStart={drag} onDrop={drop} onDragOver={allowDrop}>
                 <div className="cardtitle">Line</div>
                 <Card className="cardroot">
                 <CardContent>
-                    <Line color1={c.color2} color2={c.color2}/>
+                    <Line  id={idx} color1={c.color2} color2={c.color2}/>
                 </CardContent>
             </Card>
             </div>;
             break;
         case 'bubble':
           // console.log("create bubble");
-             return <div key={uniqueId()} draggable="true"  onDragStart={drag} onDrop={drop} onDragOver={allowDrop}>
+             return <div key={idx} draggable="true"  onDragStart={drag} onDrop={drop} onDragOver={allowDrop}>
                 <div className="cardtitle">Bubble</div>
                 <Card className="cardroot">
                 <CardContent>
-                    <Bubble color1={c.color2} color2={c.color2}/>
+                    <Bubble id={idx} color1={c.color2} color2={c.color2}/>
                 </CardContent>
             </Card>
             </div>;
@@ -113,22 +116,22 @@ const ChartsList: React.FC<ChartListProps> = props =>
         case 'bar':
             break;
         case 'mountain':
-            return <div key={uniqueId()} draggable="true" onDragStart={drag} onDrop={drop} onDragOver={allowDrop}>
+            return <div key={idx} draggable="true" onDragStart={drag} onDrop={drop} onDragOver={allowDrop}>
                 <div className="cardtitle">Mountain</div>
                 <Card className="cardroot">
                 <CardContent>
-                    <Mountain color1={c.color2} color2={c.color2}/>
+                    <Mountain id={idx} color1={c.color2} color2={c.color2}/>
                 </CardContent>
             </Card>
             </div>
           break;
         case 'scatter':
           // console.log("creating scatter chart");
-             return <div key={uniqueId()} draggable="true"  onDragStart={drag} onDrop={drop} onDragOver={allowDrop}>
+             return <div key={idx} draggable="true"  onDragStart={drag} onDrop={drop} onDragOver={allowDrop}>
                   <div className="cardtitle">Scatter</div>
                   <Card className="cardroot">
                       <CardContent>
-                          <Scatter color1={c.color2} color2={c.color2}/>
+                          <Scatter id={idx} color1={c.color2} color2={c.color2}/>
                       </CardContent>
                   </Card>
                 </div>
@@ -138,7 +141,7 @@ const ChartsList: React.FC<ChartListProps> = props =>
                 <div className="cardtitle">Candle</div>
                 <Card className="cardroot">
                     <CardContent>
-                        <Candle color1={c.color2} color2={c.color2}/>
+                        <Candle id={idx} color1={c.color2} color2={c.color2}/>
                     </CardContent>
                 </Card>
                 </div>
@@ -159,9 +162,9 @@ const ChartsList: React.FC<ChartListProps> = props =>
          </div> */}
           <div  className="flex-container wrap dashboard" id="chartslist">        
               {
-                charts.map((c : ChartProps) => 
+                charts.map((c : ChartProps, index) =>
                 {
-                  return (createChart(c));
+                  return (createChart(c, index));
                 })
               }
           </div>
