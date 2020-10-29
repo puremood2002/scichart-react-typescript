@@ -31,11 +31,19 @@ export function CreateChart({title, description, type, color1, color2} :
 
 export function SelectNode(name:string)
 {
-    const action : SelectNodeAction ={
-        type: actionTypes.SELECT_CS_NODE,
-        name:name
-    };
-    return selectNode(action);
+    for(const x in csCharts)
+    {
+        var n = csCharts[x];
+        if(n.name === name)
+        {
+            const action : SelectNodeAction ={
+                type: actionTypes.SELECT_CS_NODE,
+                name:name,
+                charts: n.chartsProps
+            };
+            return selectNode(action);
+        }
+    }
 }
 
 

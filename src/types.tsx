@@ -82,7 +82,8 @@ export interface TopState {
 
   export type SelectNodeAction = {
         type: string,
-        name :string
+        name :string,
+        charts:ChartProps[]
   };
  export type FetchSucceededDispatchType = (args: FetchChartsSucceedAction) => FetchChartsSucceedAction;
  export type CreateChartDispatchType = (args : CreateChartAction) => CreateChartAction;

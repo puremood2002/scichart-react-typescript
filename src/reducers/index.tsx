@@ -34,9 +34,11 @@ const initialState : TopState= {
         console.log("that is the action type");
 
     if(action.type===SELECT_CS_NODE){
+      console.log("in reducer, select node");
+      console.log(action);
         return {
           ...state,
-          charts:action.payload.charts
+          charts:action.charts
         };
       }
       if(action.type===FETCH_CHARTS_STARTED){
