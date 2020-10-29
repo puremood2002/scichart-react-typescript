@@ -33,7 +33,7 @@ const store: Store<TopState, any> & {
     dispatch: any;
   } = createStore(reducer, applyMiddleware(thunk));
   
-  console.log(reducer);
+  // console.log(reducer);
   
   ReactDOM.render(
     <Provider store={store}>

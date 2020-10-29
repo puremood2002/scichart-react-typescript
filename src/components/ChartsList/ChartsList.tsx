@@ -91,7 +91,7 @@ const ChartsList: React.FC<ChartListProps> = props =>
     {
         case 'line':
           return <div key={uniqueId()} draggable="true"  onDragStart={drag} onDrop={drop} onDragOver={allowDrop}>
-                <div className="cardtitle">Bubble</div>
+                <div className="cardtitle">Line</div>
                 <Card className="cardroot">
                 <CardContent>
                     <Line />
