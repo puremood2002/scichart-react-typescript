@@ -65,6 +65,10 @@ export interface TopState {
       chartsProps : ChartProps[]
   }
   
+  export interface ChartComponentProps{
+    color1: string,
+    color2: string
+  }
   
   export type FetchChartsSucceedAction ={
         type: string,

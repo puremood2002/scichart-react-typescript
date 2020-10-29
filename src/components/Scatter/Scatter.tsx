@@ -7,15 +7,16 @@ import { EllipsePointMarker } from "scichart/Charting/Visuals/PointMarkers/Ellip
 import {EStrokePaletteMode,IPointMarkerPaletteProvider,TPointMarkerArgb,} from "scichart/Charting/Model/IPaletteProvider";
 import { useEffect } from 'react';
 import { NumberRange } from "scichart/Core/NumberRange";
+import {ChartComponentProps} from "../../types";
  
 const did = Math.floor( Math.random()*100);
 
-const Scatter: React.FC<any> = props => 
+const Scatter: React.FC<ChartComponentProps> = props => 
  {
     const divid = "scichart-root-scatter"+did;
     console.log("scatter div id ="+divid);
     useEffect(() => {
-      drawScatterChart();
+      drawScatterChart(props.color1);
    });
 
    const styles = {
@@ -31,7 +32,7 @@ const Scatter: React.FC<any> = props =>
    return element;
 };
   
-  async function drawScatterChart()
+  async function drawScatterChart(color1:string)
   {
     const divid = "scichart-root-scatter"+did;
     console.log("scatter div id in draw ="+divid);
@@ -59,8 +60,8 @@ const Scatter: React.FC<any> = props =>
             width: 7,
             height: 7,
             strokeThickness: 1,
-            fill: "steelblue",
-            stroke: "LightSteelBlue",
+            fill: color1,
+            stroke: color1,
         })
         // Optional: PaletteProvider feature allows coloring per-point based on a rule
     });

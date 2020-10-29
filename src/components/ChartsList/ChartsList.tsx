@@ -94,7 +94,7 @@ const ChartsList: React.FC<ChartListProps> = props =>
                 <div className="cardtitle">Line</div>
                 <Card className="cardroot">
                 <CardContent>
-                    <Line />
+                    <Line color1={c.color2} color2={c.color2}/>
                 </CardContent>
             </Card>
             </div>;
@@ -105,7 +105,7 @@ const ChartsList: React.FC<ChartListProps> = props =>
                 <div className="cardtitle">Bubble</div>
                 <Card className="cardroot">
                 <CardContent>
-                    <Bubble />
+                    <Bubble color1={c.color2} color2={c.color2}/>
                 </CardContent>
             </Card>
             </div>;
@@ -117,7 +117,7 @@ const ChartsList: React.FC<ChartListProps> = props =>
                 <div className="cardtitle">Mountain</div>
                 <Card className="cardroot">
                 <CardContent>
-                    <Mountain />
+                    <Mountain color1={c.color2} color2={c.color2}/>
                 </CardContent>
             </Card>
             </div>
@@ -128,7 +128,7 @@ const ChartsList: React.FC<ChartListProps> = props =>
                   <div className="cardtitle">Scatter</div>
                   <Card className="cardroot">
                       <CardContent>
-                          <Scatter />
+                          <Scatter color1={c.color2} color2={c.color2}/>
                       </CardContent>
                   </Card>
                 </div>
@@ -138,7 +138,7 @@ const ChartsList: React.FC<ChartListProps> = props =>
                 <div className="cardtitle">Candle</div>
                 <Card className="cardroot">
                     <CardContent>
-                        <Candle />
+                        <Candle color1={c.color2} color2={c.color2}/>
                     </CardContent>
                 </Card>
                 </div>

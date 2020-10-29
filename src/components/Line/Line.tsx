@@ -4,14 +4,15 @@ import {NumericAxis} from "scichart/Charting/Visuals/Axis/NumericAxis";
 import {XyDataSeries} from "scichart/Charting/Model/XyDataSeries";
 import {FastLineRenderableSeries} from "scichart/Charting/Visuals/RenderableSeries/FastLineRenderableSeries";
 import { useEffect } from 'react';
+import {ChartComponentProps} from "../../types";
 
- const Line: React.FC<any> = props => 
+ const Line: React.FC<ChartComponentProps> = props => 
  {
     console.log("In line component");
 
     useEffect(() => {
       // console.log("in line, before initscichart");
-      initLineSciChart();
+      initLineSciChart(props.color1);
       // console.log("in line, after initscichart")
    });
 
@@ -28,7 +29,7 @@ import { useEffect } from 'react';
    return element;
 };
   
-  async function initLineSciChart()
+  async function initLineSciChart(color1 : string)
   {
     // console.log("start init scichart");
     // Below find a trial / BETA key for SciChart.js.
@@ -64,7 +65,7 @@ import { useEffect } from 'react';
       // Create a line series        
       const lineSeries = new FastLineRenderableSeries(wasmContext, {
           dataSeries: xyDataSeries, 
-          stroke: `rgba(176,196,222,${opacity})`,
+          stroke: color1,
           strokeThickness:2
       });
       sciChartSurface.renderableSeries.add(lineSeries);

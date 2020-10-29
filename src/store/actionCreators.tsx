@@ -16,7 +16,8 @@ export function FetchCharts() {
 export function CreateChart({title, description, type, color1, color2} :
     {title: any, description: any, type: any, color1: any, color2: any})
 {
-    console.log("in action creator - create chart")
+    console.log("in action creator - create chart, color1 is ");
+    console.log(color1);
     const action: CreateChartAction = {
         type: actionTypes.CREATE_CHART_SUCCEDED,
         title: title,

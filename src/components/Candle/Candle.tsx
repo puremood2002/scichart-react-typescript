@@ -1,15 +1,40 @@
 import * as React from "react";
-import {SciChartSurface} from "scichart/Charting/Visuals/SciChartSurface";
-import {NumericAxis} from "scichart/Charting/Visuals/Axis/NumericAxis";
-import {XyDataSeries} from "scichart/Charting/Model/XyDataSeries";
-import {FastLineRenderableSeries} from "scichart/Charting/Visuals/RenderableSeries/FastLineRenderableSeries";
-import { useEffect } from 'react';
+import { SciChartSurface } from "scichart";
+import { CategoryAxis } from "scichart/Charting/Visuals/Axis/CategoryAxis";
+import { NumberRange } from "scichart/Core/NumberRange";
+import { NumericAxis } from "scichart/Charting/Visuals/Axis/NumericAxis";
+import { OhlcDataSeries } from "scichart/Charting/Model/OhlcDataSeries";
+import { FastCandlestickRenderableSeries } from "scichart/Charting/Visuals/RenderableSeries/FastCandlestickRenderableSeries";
+import { ZoomPanModifier } from "scichart/Charting/ChartModifiers/ZoomPanModifier";
+import { ZoomExtentsModifier } from "scichart/Charting/ChartModifiers/ZoomExtentsModifier";
+// import { closeValues, dateValues, highValues, lowValues, openValues } from "./data/data";
+import {MouseWheelZoomModifier} from "scichart/Charting/ChartModifiers/MouseWheelZoomModifier";
+import {parseColorToUIntArgb} from "scichart/utils/parseColor";
+import {
+    EFillPaletteMode,
+    EStrokePaletteMode,
+    IFillPaletteProvider,
+    IPaletteProvider,
+    IStrokePaletteProvider
+} from "scichart/Charting/Model/IPaletteProvider";
+import {IRenderableSeries} from "scichart/Charting/Visuals/RenderableSeries/IRenderableSeries";
 
- const Candle: React.FC<any> = props => 
+import { useEffect } from 'react';
+import {ChartComponentProps} from "../../types";
+
+const did = Math.random();
+const closeValues = [1,3,5,2,4,6];
+const openValues = [1.2,4.3,2.1,10,5,5];
+const highValues = [10,3,9,2,7,11];
+const lowValues = [1,1.1,2.1,0, 0.1,3];
+const dateValues=[new Date('2012.08.10').getTime() / 1000,new Date('2012.08.11').getTime() / 1000,new Date('2012.08.12').getTime() / 1000,
+new Date('2012.08.13').getTime() / 1000,new Date('2012.08.14').getTime() / 1000, new Date('2012.08.15').getTime() / 1000]
+ const Candle: React.FC<ChartComponentProps> = props => 
  {
+    const divid = "scichart-root-candle"+did;
 
     useEffect(() => {
-      initSciChart();
+      initSciChart(props.color1, props.color2);
    });
 
    const styles = {
@@ -20,56 +45,56 @@ import { useEffect } from 'react';
   };
 
    const element = 
-    <div id="scichart-root-candle" style={styles.div}></div>;
+    <div id={divid} style={styles.div}></div>;
 
    return element;
 };
   
-  async function initSciChart()
+  async function initSciChart(color1 : string, color2: string)
   {
-    // console.log("start init scichart");
-    // Below find a trial / BETA key for SciChart.js.
-    // This Expires in 30 days - or 14th November 2020
-    // Set this license key once in your app before calling SciChartSurface.create, e.g.
-    SciChartSurface.setRuntimeLicenseKey("WcnXtRLwGVtfNA59XwvDQA11wSpykEA1NEpARELTB+Aq6kf2nJSK9GgWOKvCJA6P+jNg2xcVLw3oM7EdIIi0MJtvorAARa9au01LV/xLJ1jdOeDeMXpw/eT5ajSpukKcJXHe97tzsBzfB6wRziW6LgNjuB3ykFIk+tGvOmJyhRewYjF+FCSb/0q8Bq8em4lNmOfONzJz5spVWvvfHdn5iIYfvv00hhduow4bFzxXnRucLtHl2Bm1yFvrVYe0UOQcFpJ9DZ4S96GLhSw9SIkUSAy/C5r3FvdCkX8d40ehAg+n78w92QXwh4B41xF0f+9OHpeV3byaZDNr5L1afdS3qCahoyeYEnmt4hYdmGH3uS+KtC29bAcVXUqNA9P3pESndALjlEimVNfr6RrfKEY3jroWtPXEx2Oo9XcD3ZLUJiRrjDL0lTf/3a6+KN1xsl2K2eymqyo9Wggy7Mf3WymmvURil7SaxE3xBP5LWWGPMEXvf9m7vXGz6fkEtsZhdEC3HQprBwEGyV1zPdLxDqtWO9ltEBEBlS2FrzJ3984/zSp9sbc=");
+    const divid = "scichart-root-candle"+did;
 
-    // Create the SciChartSurface in the div 'scichart-root'
-    // The SciChartSurface, and webassembly context 'wasmContext' are paired. This wasmContext
-    // instance must be passed to other types that exist on the same surface.
-    const {sciChartSurface, wasmContext} = await SciChartSurface.create("scichart-root-candle");
+    const { sciChartSurface, wasmContext } = await SciChartSurface.create(divid);
 
-    // console.log("surface created")
-
-    // Create an X,Y Axis and add to the chart
-    const xAxis = new NumericAxis(wasmContext);
-    const yAxis = new NumericAxis(wasmContext);
-    
+    // Add an XAxis of type CategoryAxis - which collapses gaps in stock market data
+    const xAxis = new CategoryAxis(wasmContext);
+    xAxis.growBy = new NumberRange(0.05, 0.05);
     sciChartSurface.xAxes.add(xAxis);
+
+    // Create a NumericAxis on the YAxis
+    const yAxis = new NumericAxis(wasmContext);
+    yAxis.visibleRange = new NumberRange(1.1, 1.2);
+    yAxis.growBy = new NumberRange(0.1, 0.1);
+    yAxis.labelProvider.formatLabel = (dataValue: number) => dataValue.toFixed(3);
     sciChartSurface.yAxes.add(yAxis);
 
-    for (let seriesCount = 0; seriesCount < 100; seriesCount++) {        
-      const xyDataSeries = new XyDataSeries(wasmContext);
+    // Create a OhlcDataSeries with open, high, low, close values
+    const dataSeries = new OhlcDataSeries(wasmContext, {
+        xValues: dateValues, // XValues is number[] array of unix timestamps
+        openValues, // Assuming open, high, low, close values are number[] arrays
+        highValues,
+        lowValues,
+        closeValues,
+    });
 
-      const opacity = (1 - ((seriesCount / 120))).toFixed(2);
+    // Create and add the Candlestick series
+    const candlestickSeries = new FastCandlestickRenderableSeries(wasmContext, {
+        strokeThickness: 1,
+        dataSeries,
+        dataPointWidth: 0.5,
+        brushUp: color1,
+        brushDown: color2,
+        strokeUp: color1,
+        strokeDown: color2,
+        // paletteProvider: new CandlestickPaletteProvider()
+    });
+    sciChartSurface.renderableSeries.add(candlestickSeries);
 
-      // Populate with some data
-      for(let i = 0; i < 10000; i++) {
-          xyDataSeries.append(i, Math.sin(i* 0.01) * Math.exp(i*(0.00001*(seriesCount+1))));
-      }
+    // Optional: Add some interactivity modifiers
+    sciChartSurface.chartModifiers.add(new ZoomExtentsModifier(), new ZoomPanModifier(), new MouseWheelZoomModifier());
 
-      // Add and create a line series with this data to the chart
-      // Create a line series        
-      const lineSeries = new FastLineRenderableSeries(wasmContext, {
-          dataSeries: xyDataSeries, 
-          stroke: `rgba(176,196,222,${opacity})`,
-          strokeThickness:2
-      });
-      sciChartSurface.renderableSeries.add(lineSeries);
-  
-      sciChartSurface.zoomExtents();
-      return { sciChartSurface, wasmContext };
-    // That's it! You just created your first SciChartSurface!
-  }
+    sciChartSurface.zoomExtents();
+    return { dataSeries, sciChartSurface };
 };
 
 

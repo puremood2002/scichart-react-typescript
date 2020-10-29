@@ -1,17 +1,23 @@
 import * as React from "react";
-import {SciChartSurface} from "scichart/Charting/Visuals/SciChartSurface";
-import {NumericAxis} from "scichart/Charting/Visuals/Axis/NumericAxis";
-import {XyDataSeries} from "scichart/Charting/Model/XyDataSeries";
-import {FastLineRenderableSeries} from "scichart/Charting/Visuals/RenderableSeries/FastLineRenderableSeries";
+import { MouseWheelZoomModifier } from "scichart/Charting/ChartModifiers/MouseWheelZoomModifier";
+import { ZoomExtentsModifier } from "scichart/Charting/ChartModifiers/ZoomExtentsModifier";
+import { NumericAxis } from "scichart/Charting/Visuals/Axis/NumericAxis";
+import { FastLineRenderableSeries } from "scichart/Charting/Visuals/RenderableSeries/FastLineRenderableSeries";
+import { FastBubbleRenderableSeries } from "scichart/Charting/Visuals/RenderableSeries/FastBubbleRenderableSeries";
+import { SciChartSurface } from "scichart/Charting/Visuals/SciChartSurface";
+import { NumberRange } from "scichart/Core/NumberRange";
+import { EllipsePointMarker } from "scichart/Charting/Visuals/PointMarkers/EllipsePointMarker";
+import { XyDataSeries } from "scichart/Charting/Model/XyDataSeries";
+import { XyzDataSeries } from "scichart/Charting/Model/XyzDataSeries";
 import { useEffect } from 'react';
+import {ChartComponentProps} from '../../types';
 
 const did = Math.random();
- const Bubble: React.FC<any> = props => 
+ const Bubble: React.FC<ChartComponentProps> = props => 
  {
   const divid = "scichart-root-bubble"+did;
-
     useEffect(() => {
-      initBubbleSciChart();
+      initBubbleSciChart(props.color1);
     });
 
     
@@ -27,52 +33,64 @@ const did = Math.random();
    return element;
 };
 
-async function initBubbleSciChart()
-  {
-      const divid = "scichart-root-bubble"+did;
+async function initBubbleSciChart(color1:string)
+{
+  const divid = "scichart-root-bubble"+did;
 
-      // console.log("start init bubble scichart");
-      // Below find a trial / BETA key for SciChart.js.
-      // This Expires in 30 days - or 14th November 2020
-      // Set this license key once in your app before calling SciChartSurface.create, e.g.
-      SciChartSurface.setRuntimeLicenseKey("WcnXtRLwGVtfNA59XwvDQA11wSpykEA1NEpARELTB+Aq6kf2nJSK9GgWOKvCJA6P+jNg2xcVLw3oM7EdIIi0MJtvorAARa9au01LV/xLJ1jdOeDeMXpw/eT5ajSpukKcJXHe97tzsBzfB6wRziW6LgNjuB3ykFIk+tGvOmJyhRewYjF+FCSb/0q8Bq8em4lNmOfONzJz5spVWvvfHdn5iIYfvv00hhduow4bFzxXnRucLtHl2Bm1yFvrVYe0UOQcFpJ9DZ4S96GLhSw9SIkUSAy/C5r3FvdCkX8d40ehAg+n78w92QXwh4B41xF0f+9OHpeV3byaZDNr5L1afdS3qCahoyeYEnmt4hYdmGH3uS+KtC29bAcVXUqNA9P3pESndALjlEimVNfr6RrfKEY3jroWtPXEx2Oo9XcD3ZLUJiRrjDL0lTf/3a6+KN1xsl2K2eymqyo9Wggy7Mf3WymmvURil7SaxE3xBP5LWWGPMEXvf9m7vXGz6fkEtsZhdEC3HQprBwEGyV1zPdLxDqtWO9ltEBEBlS2FrzJ3984/zSp9sbc=");
+  // Create a SciChartSurface with X,Y Axis
+  const { sciChartSurface, wasmContext } = await SciChartSurface.create(divid);
+  sciChartSurface.xAxes.add(new NumericAxis(wasmContext));
+  sciChartSurface.yAxes.add(new NumericAxis(wasmContext, { growBy: new NumberRange(0.05, 0.05) }));
 
-      // Create the SciChartSurface in the div 'scichart-root'
-      // The SciChartSurface, and webassembly context 'wasmContext' are paired. This wasmContext
-      // instance must be passed to other types that exist on the same surface.
-      const {sciChartSurface, wasmContext} = await SciChartSurface.create(divid);
+  // Line Series
+  const lineSeries = new FastLineRenderableSeries(wasmContext, {
+      stroke: "#FFFFFF",
+      strokeThickness: 2
+  });
+  sciChartSurface.renderableSeries.add(lineSeries);
 
-      // console.log("surface created")
+  const bubbleSeries = new FastBubbleRenderableSeries(wasmContext, {
+    pointMarker: new EllipsePointMarker(wasmContext, {
+        width: 14,
+        height: 15,
+        strokeThickness: 0,
+        fill: color1,
+    })
+    // Optional: PaletteProvider feature allows coloring per-point based on a rule
+  });
 
-      // Create an X,Y Axis and add to the chart
-      const xAxis = new NumericAxis(wasmContext);
-      const yAxis = new NumericAxis(wasmContext);
-      
-      sciChartSurface.xAxes.add(xAxis);
-      sciChartSurface.yAxes.add(yAxis);
+  sciChartSurface.renderableSeries.add(bubbleSeries);
+  
 
-      for (let seriesCount = 0; seriesCount < 10; seriesCount++) {        
-        const xyDataSeries = new XyDataSeries(wasmContext);
+  // Populate data to both series
+  const lineDataSeries = new XyDataSeries(wasmContext);
+  const bubbleDataSeries = new XyzDataSeries(wasmContext);
+  const POINTS = 20;
+  let prevYValue = 0;
+  for (let i = 0; i < POINTS; i++) {
+      const curYValue = Math.sin(i) * 10 - 5;
+      const size = Math.sin(i) * 60 + 3;
 
-        const opacity = (1 - ((seriesCount / 120))).toFixed(2);
+      lineDataSeries.append(i, prevYValue + curYValue);
+      bubbleDataSeries.append(i, prevYValue + curYValue, size/5);
 
-        // Populate with some data
-        for(let i = 0; i < 10000; i++) {
-            xyDataSeries.append(i, Math.sin(i* 0.01) * Math.exp(i*(0.00001*(seriesCount+1))));
-        }
-
-        // Add and create a line series with this data to the chart
-        // Create a line series        
-        const lineSeries = new FastLineRenderableSeries(wasmContext, {
-            dataSeries: xyDataSeries, 
-            stroke: `rgba(176,196,222,${opacity})`,
-            strokeThickness:2
-        });
-        sciChartSurface.renderableSeries.add(lineSeries);
-      }
-      sciChartSurface.zoomExtents();
-      return { sciChartSurface, wasmContext };
+      prevYValue += curYValue;
   }
+
+  // Assign dataSeries to renderableSeries
+  lineSeries.dataSeries = lineDataSeries;
+  bubbleSeries.dataSeries = bubbleDataSeries;
+
+  sciChartSurface.renderableSeries.add(lineSeries);
+
+  // Add some zooming and panning behaviour
+  sciChartSurface.chartModifiers.add(new ZoomExtentsModifier());
+  sciChartSurface.chartModifiers.add(new MouseWheelZoomModifier());
+
+  sciChartSurface.zoomExtents();
+  return { sciChartSurface, wasmContext };
+}
+
   
 
 export default Bubble;

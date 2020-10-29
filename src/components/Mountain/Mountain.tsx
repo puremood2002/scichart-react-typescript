@@ -1,15 +1,33 @@
 import * as React from "react";
-import {SciChartSurface} from "scichart/Charting/Visuals/SciChartSurface";
-import {NumericAxis} from "scichart/Charting/Visuals/Axis/NumericAxis";
-import {XyDataSeries} from "scichart/Charting/Model/XyDataSeries";
-import {FastLineRenderableSeries} from "scichart/Charting/Visuals/RenderableSeries/FastLineRenderableSeries";
-import { useEffect } from 'react';
+import { SciChartSurface } from "scichart";
+import { NumericAxis } from "scichart/Charting/Visuals/Axis/NumericAxis";
+import { EAxisAlignment } from "scichart/types/AxisAlignment";
+import { NumberRange } from "scichart/Core/NumberRange";
+import { ENumericFormat } from "scichart/Charting/Visuals/Axis/LabelProvider/NumericLabelProvider";
+import { FastMountainRenderableSeries } from "scichart/Charting/Visuals/RenderableSeries/FastMountainRenderableSeries";
+import { GradientParams } from "scichart/Core/GradientParams";
+import { Point } from "scichart/Core/Point";
+import { XyDataSeries } from "scichart/Charting/Model/XyDataSeries";
+import { ZoomExtentsModifier } from "scichart/Charting/ChartModifiers/ZoomExtentsModifier";
+import { RubberBandXyZoomModifier } from "scichart/Charting/ChartModifiers/RubberBandXyZoomModifier";
+import {
+    EFillPaletteMode,
+    EStrokePaletteMode,
+    IFillPaletteProvider,
+    IStrokePaletteProvider,
+} from "scichart/Charting/Model/IPaletteProvider";
+import { IRenderableSeries } from "scichart/Charting/Visuals/RenderableSeries/IRenderableSeries";
+import { parseColorToUIntArgb } from "scichart/utils/parseColor";
+import { MouseWheelZoomModifier } from "scichart/Charting/ChartModifiers/MouseWheelZoomModifier";
 
- const Mountain: React.FC<any> = props => 
+import { useEffect } from 'react';
+import {ChartComponentProps} from "../../types";
+
+ const Mountain: React.FC<ChartComponentProps> = props => 
  {
 
     useEffect(() => {
-      initSciChart();
+      initSciChart(props.color2, props.color2);
    });
 
    const styles = {
@@ -25,52 +43,59 @@ import { useEffect } from 'react';
    return element;
 };
   
-  async function initSciChart()
+  async function initSciChart(color1:string, color2:string)
   {
-    // console.log("start init scichart");
-    // Below find a trial / BETA key for SciChart.js.
-    // This Expires in 30 days - or 14th November 2020
-    // Set this license key once in your app before calling SciChartSurface.create, e.g.
-    SciChartSurface.setRuntimeLicenseKey("WcnXtRLwGVtfNA59XwvDQA11wSpykEA1NEpARELTB+Aq6kf2nJSK9GgWOKvCJA6P+jNg2xcVLw3oM7EdIIi0MJtvorAARa9au01LV/xLJ1jdOeDeMXpw/eT5ajSpukKcJXHe97tzsBzfB6wRziW6LgNjuB3ykFIk+tGvOmJyhRewYjF+FCSb/0q8Bq8em4lNmOfONzJz5spVWvvfHdn5iIYfvv00hhduow4bFzxXnRucLtHl2Bm1yFvrVYe0UOQcFpJ9DZ4S96GLhSw9SIkUSAy/C5r3FvdCkX8d40ehAg+n78w92QXwh4B41xF0f+9OHpeV3byaZDNr5L1afdS3qCahoyeYEnmt4hYdmGH3uS+KtC29bAcVXUqNA9P3pESndALjlEimVNfr6RrfKEY3jroWtPXEx2Oo9XcD3ZLUJiRrjDL0lTf/3a6+KN1xsl2K2eymqyo9Wggy7Mf3WymmvURil7SaxE3xBP5LWWGPMEXvf9m7vXGz6fkEtsZhdEC3HQprBwEGyV1zPdLxDqtWO9ltEBEBlS2FrzJ3984/zSp9sbc=");
+      // Create a SciChartSurface
+      const { wasmContext, sciChartSurface } = await SciChartSurface.create("scichart-root-mountain");
 
-    // Create the SciChartSurface in the div 'scichart-root'
-    // The SciChartSurface, and webassembly context 'wasmContext' are paired. This wasmContext
-    // instance must be passed to other types that exist on the same surface.
-    const {sciChartSurface, wasmContext} = await SciChartSurface.create("scichart-root-mountain");
-
-    // console.log("surface created")
-
-    // Create an X,Y Axis and add to the chart
-    const xAxis = new NumericAxis(wasmContext);
-    const yAxis = new NumericAxis(wasmContext);
-    
-    sciChartSurface.xAxes.add(xAxis);
-    sciChartSurface.yAxes.add(yAxis);
-
-    for (let seriesCount = 0; seriesCount < 100; seriesCount++) {        
-      const xyDataSeries = new XyDataSeries(wasmContext);
-
-      const opacity = (1 - ((seriesCount / 120))).toFixed(2);
-
-      // Populate with some data
-      for(let i = 0; i < 10000; i++) {
-          xyDataSeries.append(i, Math.sin(i* 0.01) * Math.exp(i*(0.00001*(seriesCount+1))));
-      }
-
-      // Add and create a line series with this data to the chart
-      // Create a line series        
-      const lineSeries = new FastLineRenderableSeries(wasmContext, {
-          dataSeries: xyDataSeries, 
-          stroke: `rgba(176,196,222,${opacity})`,
-          strokeThickness:2
+      // Create an XAxis and YAxis
+      sciChartSurface.xAxes.add(
+          new NumericAxis(wasmContext, {
+              axisAlignment: EAxisAlignment.Top,
+          })
+      );
+      sciChartSurface.yAxes.add(
+          new NumericAxis(wasmContext, {
+              axisAlignment: EAxisAlignment.Left,
+              growBy: new NumberRange(0.05, 0.05),
+              labelFormat: ENumericFormat.Decimal_2,
+          })
+      );
+  
+      // Create a Mountain Series and add to the chart
+      const mountainSeries = new FastMountainRenderableSeries(wasmContext, {
+          stroke: color1,
+          strokeThickness: 5,
+          zeroLineY: 0.0,
+          fill: color2, // is not used, because we have fillLinearGradient
+          fillLinearGradient: new GradientParams(new Point(0, 0), new Point(0, 1), [
+              { color: color1, offset: 0 },
+              { color: "rgba(70,130,180,0.2)", offset: 1 },
+          ]),
+          // Optional: Allows per-point colouring of mountain fill and stroke
+          // paletteProvider: new MountainPaletteProvider(),
       });
-      sciChartSurface.renderableSeries.add(lineSeries);
+      sciChartSurface.renderableSeries.add(mountainSeries);
+  
+      // Create some Xy data and assign to the mountain series
+      const dataSeries = new XyDataSeries(wasmContext);
+      const POINTS = 1000;
+      const STEP = (3 * Math.PI) / POINTS;
+      for (let i = 0; i <= 1000; i++) {
+          dataSeries.append(i, Math.abs(Math.sin(i * STEP)));
+      }
+      mountainSeries.dataSeries = dataSeries;
+  
+      // Optional: Add some interactivity to the chart
+      sciChartSurface.chartModifiers.add(new ZoomExtentsModifier());
+      sciChartSurface.chartModifiers.add(
+          new RubberBandXyZoomModifier({ fill: "#228B2255", stroke: "#228B22CC", strokeThickness: 3 })
+      );
+      sciChartSurface.chartModifiers.add(new MouseWheelZoomModifier());
   
       sciChartSurface.zoomExtents();
-      return { sciChartSurface, wasmContext };
-    // That's it! You just created your first SciChartSurface!
+      return { wasmContext, sciChartSurface };
   }
-};
 
 
 export default Mountain;
