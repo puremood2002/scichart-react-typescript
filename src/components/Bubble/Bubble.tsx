@@ -5,12 +5,16 @@ import {XyDataSeries} from "scichart/Charting/Model/XyDataSeries";
 import {FastLineRenderableSeries} from "scichart/Charting/Visuals/RenderableSeries/FastLineRenderableSeries";
 import { useEffect } from 'react';
 
+const did = Math.random();
  const Bubble: React.FC<any> = props => 
  {
+  const divid = "scichart-root-bubble"+did;
+
     useEffect(() => {
       initBubbleSciChart();
     });
 
+    
   const styles = {
   div: {
       height: 300,
@@ -18,14 +22,16 @@ import { useEffect } from 'react';
   }};
 
    const element = 
-    <div id="scichart-root-bubble" style={styles.div}></div>;
+    <div id={divid} style={styles.div}></div>;
 
    return element;
 };
 
 async function initBubbleSciChart()
   {
-      console.log("start init scichart");
+      const divid = "scichart-root-bubble"+did;
+
+      // console.log("start init bubble scichart");
       // Below find a trial / BETA key for SciChart.js.
       // This Expires in 30 days - or 14th November 2020
       // Set this license key once in your app before calling SciChartSurface.create, e.g.
@@ -34,9 +40,9 @@ async function initBubbleSciChart()
       // Create the SciChartSurface in the div 'scichart-root'
       // The SciChartSurface, and webassembly context 'wasmContext' are paired. This wasmContext
       // instance must be passed to other types that exist on the same surface.
-      const {sciChartSurface, wasmContext} = await SciChartSurface.create("scichart-root-bubble");
+      const {sciChartSurface, wasmContext} = await SciChartSurface.create(divid);
 
-      console.log("surface created")
+      // console.log("surface created")
 
       // Create an X,Y Axis and add to the chart
       const xAxis = new NumericAxis(wasmContext);

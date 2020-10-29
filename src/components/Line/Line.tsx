@@ -10,9 +10,9 @@ import { useEffect } from 'react';
     console.log("In line component");
 
     useEffect(() => {
-      console.log("in line, before initscichart");
+      // console.log("in line, before initscichart");
       initLineSciChart();
-      console.log("in line, after initscichart")
+      // console.log("in line, after initscichart")
    });
 
    const styles = {
@@ -30,7 +30,7 @@ import { useEffect } from 'react';
   
   async function initLineSciChart()
   {
-    console.log("start init scichart");
+    // console.log("start init scichart");
     // Below find a trial / BETA key for SciChart.js.
     // This Expires in 30 days - or 14th November 2020
     // Set this license key once in your app before calling SciChartSurface.create, e.g.
@@ -41,7 +41,7 @@ import { useEffect } from 'react';
     // instance must be passed to other types that exist on the same surface.
     const {sciChartSurface, wasmContext} = await SciChartSurface.create("scichart-root-line");
 
-    console.log("surface created")
+    // console.log("surface created")
 
     // Create an X,Y Axis and add to the chart
     const xAxis = new NumericAxis(wasmContext);

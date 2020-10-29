@@ -9,12 +9,19 @@ CREATE_CHART_SUCCEDED,
 FetchCharts} from "../store/actionTypes";
 import {ChartProps, CsChartProps} from '../types';
 import {csCharts} from '../actions';
+import {uniqueId} from "../actions";
+
+
+var uid = ()=>
+{
+    return uniqueId();
+};
 
 
 const initialState : TopState= {
     charts:[] as ChartProps[] ,
     csCharts: [] as CsChartProps[],
-    isLoading: false,
+    isLoading: true,
     error: null as any,
   };
   
@@ -40,11 +47,11 @@ const initialState : TopState= {
       }
       if(action.type === FETCH_CHARTS_SUCCEEDED){
           console.log("reducer = fetch charts succeeded");
-          console.log(action.charts);
+          // console.log(action.charts);
         return {
           ...state,
-          charts: action.charts,
           isLoading: false,
+          charts: action.charts,
         };
       }
       if(action.type === FETCH_CHARTS_FAILED){
@@ -56,10 +63,24 @@ const initialState : TopState= {
       }
       if(action.type===CREATE_CHART_SUCCEDED)
       {
+        console.log("in reducing - create_chart_succeeded");
+        console.log(action);
+        const cht : ChartProps = {
+          title: action.title,
+          type:action.charttype,
+          description:"a new scatter chart",
+          color1: action.color1,
+          color2:action.color2,
+          id:uniqueId(),
+          status:"Unstarted",
+        };
+        var x = state.charts.concat(cht);
+        console.log("x=");
+        console.log(x);
         return {
           ...state,
-          charts: state.charts.concat(action.payload.chart),
           isLoading: false,
+          charts: x,
         };
       }
       return state; 

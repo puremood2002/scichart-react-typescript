@@ -30,11 +30,14 @@ class SettingDialog extends React.Component<SettingDialogProps, SettingDialogSta
   }
 
   onCreateChart=(e: { preventDefault: () => void; })=>{
+    console.log("setting dialog state");
+    console.log(this.state.type);
+    let t = this.state.type;
     e.preventDefault(); //what is this?
     this.props.onCreateChart({
         title:this.state.title,
         description:this.state.description,
-        type:this.state.type,
+        type:t,
         color1:this.state.color1,
         color2:this.state.color2
     });

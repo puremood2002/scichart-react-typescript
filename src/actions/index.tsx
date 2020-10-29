@@ -122,12 +122,12 @@ export function FetchChartsFailed(error : any)
         }
     }
 }
-export function CreateChartSucceeded(chart : any)
+export function CreateChartSucceeded({title, description, type, color1, color2} : {title: string, description: string, type: any; color1:string, color2 : string})
 {
     return {
         type:'CREATE_CHART_SUCCEDED',
         payload:{
-            chart:{id:uniqueId(),title:chart.title, description:chart.description, type:chart.type, color1:chart.color1, color2:chart.color2}
+            chart:{id:uniqueId(),title: title, description:description, type:type, color1:color1, color2:color2}
         }
     }
 }
@@ -160,11 +160,10 @@ export function CreateChart({title, description, type, color1, color2} : {title:
 {
     return (dispatch: (arg0: { type: string; payload?: { chart: { id: number; title: any; description: any; type: any; color1: any; color2: any; }; }; }) => void)=>{
         try{
-            dispatch(fetchChartsStarted());
+            // dispatch(fetchChartsStarted());
             api.createChart({title, description, type, color1, color2})
             .then(resp=>
                 {
-                    // dispatch(CreateChartSucceeded(resp.data));
                 dispatch(CreateChartSucceeded({title, description, type, color1, color2}));
 
                 });
@@ -188,7 +187,7 @@ export function FetchCharts()
     {
         return  (dispatch: (arg0: { type: string; payload: { charts: any; }; }) => void) =>
             {
-                console.log("in dispatch, before api");
+                // console.log("in dispatch, before api");
                 api
                 .fetchCharts() 
                 .then((resp: any) => {
@@ -196,7 +195,7 @@ export function FetchCharts()
                      throw new Error('Oh noes! Unable to fetch tasks!');
                 })
                 .catch((err: any) => {
-                    console.log("dispatch fetchchartsucceeded");
+                    // console.log("dispatch fetchchartsucceeded");
                 //dispatch(FetchTaskFailed(err.message));
                 dispatch(FetchChartsSucceed(csCharts[0].chartsProps));
                 });

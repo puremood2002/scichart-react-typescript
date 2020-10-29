@@ -7,8 +7,13 @@ import { EllipsePointMarker } from "scichart/Charting/Visuals/PointMarkers/Ellip
 import {EStrokePaletteMode,IPointMarkerPaletteProvider,TPointMarkerArgb,} from "scichart/Charting/Model/IPaletteProvider";
 import { useEffect } from 'react';
 import { NumberRange } from "scichart/Core/NumberRange";
- const Scatter: React.FC<any> = props => 
+ 
+const did = Math.floor( Math.random()*100);
+
+const Scatter: React.FC<any> = props => 
  {
+    const divid = "scichart-root-scatter"+did;
+    console.log("scatter div id ="+divid);
     useEffect(() => {
       drawScatterChart();
    });
@@ -21,14 +26,17 @@ import { NumberRange } from "scichart/Core/NumberRange";
   };
 
    const element = 
-    <div id="scichart-root-scatter" style={styles.div}></div>;
+    <div id={divid} style={styles.div}></div>;
 
    return element;
 };
   
   async function drawScatterChart()
   {
-    console.log("start init scatter scichart");
+    const divid = "scichart-root-scatter"+did;
+    console.log("scatter div id in draw ="+divid);
+
+    // console.log("start init scatter scichart");
     // Below find a trial / BETA key for SciChart.js.
     // This Expires in 30 days - or 14th November 2020
     // Set this license key once in your app before calling SciChartSurface.create, e.g.
@@ -37,9 +45,9 @@ import { NumberRange } from "scichart/Core/NumberRange";
     // Create the SciChartSurface in the div 'scichart-root'
     // The SciChartSurface, and webassembly context 'wasmContext' are paired. This wasmContext
     // instance must be passed to other types that exist on the same surface.
-    const {sciChartSurface, wasmContext} = await SciChartSurface.create("scichart-root-scatter");
+    const {sciChartSurface, wasmContext} = await SciChartSurface.create(divid);
 
-    console.log("scatter urface created")
+    // console.log("scatter urface created")
 
     sciChartSurface.xAxes.add(new NumericAxis(wasmContext));
     sciChartSurface.yAxes.add(new NumericAxis(wasmContext, { growBy: new NumberRange(0.05, 0.05) }));

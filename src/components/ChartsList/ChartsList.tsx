@@ -11,6 +11,7 @@ import CardContent from '@material-ui/core/CardContent';
 import type {ChartListProps, ChartProps, ChartListState} from '../../types';
 import {useDispatch, useSelector, shallowEqual} from "react-redux";
 import {useState} from 'react';
+import {uniqueId} from "../../actions";
 
 const ChartsList: React.FC<ChartListProps> = props =>
  {
@@ -21,9 +22,9 @@ const ChartsList: React.FC<ChartListProps> = props =>
     );
 
 
-    console.log("ChartListCharts from state ");
-    console.log(charts);
-    console.log("end charts from states");
+    // console.log("ChartListCharts from state ");
+    // console.log(charts);
+    // console.log("end charts from states");
 
     let dragdiv : any;
     let dragId;
@@ -73,15 +74,23 @@ const ChartsList: React.FC<ChartListProps> = props =>
     };
 
 
+    var uid = ()=>
+    {
+      var idd = uniqueId();
+      console.log("idd=");
+      console.log(idd);
+      return idd;
+    };
+
   const createChart = (c : ChartProps) =>
   {
     let ct = c.type;
-    console.log("in create chart, type = ");
-    console.log(ct);
+    // console.log("in create chart, type = ");
+    // console.log(ct);
     switch(ct)
     {
         case 'line':
-          return <div key="1" draggable="true"  onDragStart={drag} onDrop={drop} onDragOver={allowDrop}>
+          return <div key={uniqueId()} draggable="true"  onDragStart={drag} onDrop={drop} onDragOver={allowDrop}>
                 <div className="cardtitle">Bubble</div>
                 <Card className="cardroot">
                 <CardContent>
@@ -91,8 +100,8 @@ const ChartsList: React.FC<ChartListProps> = props =>
             </div>;
             break;
         case 'bubble':
-          console.log("create bubble");
-             return <div key="2" draggable="true"  onDragStart={drag} onDrop={drop} onDragOver={allowDrop}>
+          // console.log("create bubble");
+             return <div key={uniqueId()} draggable="true"  onDragStart={drag} onDrop={drop} onDragOver={allowDrop}>
                 <div className="cardtitle">Bubble</div>
                 <Card className="cardroot">
                 <CardContent>
@@ -104,7 +113,7 @@ const ChartsList: React.FC<ChartListProps> = props =>
         case 'bar':
             break;
         case 'mountain':
-            return <div key="3" draggable="true" onDragStart={drag} onDrop={drop} onDragOver={allowDrop}>
+            return <div key={uniqueId()} draggable="true" onDragStart={drag} onDrop={drop} onDragOver={allowDrop}>
                 <div className="cardtitle">Mountain</div>
                 <Card className="cardroot">
                 <CardContent>
@@ -114,8 +123,8 @@ const ChartsList: React.FC<ChartListProps> = props =>
             </div>
           break;
         case 'scatter':
-          console.log("creating scatter chart");
-             return <div key="4" draggable="true"  onDragStart={drag} onDrop={drop} onDragOver={allowDrop}>
+          // console.log("creating scatter chart");
+             return <div key={uniqueId()} draggable="true"  onDragStart={drag} onDrop={drop} onDragOver={allowDrop}>
                   <div className="cardtitle">Scatter</div>
                   <Card className="cardroot">
                       <CardContent>
@@ -125,7 +134,7 @@ const ChartsList: React.FC<ChartListProps> = props =>
                 </div>
             break;
         case 'candle':
-             return  <div key="5" draggable="true"  onDragStart={drag} onDrop={drop} onDragOver={allowDrop}>
+             return  <div key={uniqueId()} draggable="true"  onDragStart={drag} onDrop={drop} onDragOver={allowDrop}>
                 <div className="cardtitle">Candle</div>
                 <Card className="cardroot">
                     <CardContent>

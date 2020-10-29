@@ -17,9 +17,9 @@ const Dashboard: React.FC<DashboardProps> = props => {
   //   shallowEqual
   // );
 
-  console.log("Dashboard props.charts:");
-  console.log(props.charts);
-  console.log("End dashboard props.charts");
+  // console.log("Dashboard props.charts:");
+  // console.log(props.charts);
+  // console.log("End dashboard props.charts");
 
   const [showNewCardsForm, setShowNewCardsFrom] = useState<boolean>();
 

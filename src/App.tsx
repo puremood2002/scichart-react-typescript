@@ -10,12 +10,12 @@ import CSTreeView from './components/CSTreeView';
 import type {TopState, CsChartProps} from './types';
 import {useDispatch, useSelector, shallowEqual} from "react-redux";
 import {Dispatch} from 'redux';
-import { useEffect } from 'react';
+import { useEffect, useState} from 'react';
 import {ChartProps} from './types';
 
   const App: React.FC = () => {
-    console.log(" starting App state");
-
+    // console.log(" starting App state");
+  
   const error:  any = useSelector(
     (state: TopState) => state.error,
     shallowEqual
@@ -26,7 +26,7 @@ import {ChartProps} from './types';
     shallowEqual
   );
 
-  console.log(charts);
+  // console.log(charts);
 
   const csCharts: CsChartProps[] = useSelector(
     (state: TopState) => state.csCharts,
@@ -45,12 +45,13 @@ import {ChartProps} from './types';
 
   const dispatch: Dispatch<any> = useDispatch();
 
-  const onCreateChart = React.useCallback(
-    ({title, description, charttype, color1, color2} :
-      {title: any, description: any, charttype: any, color1: any, color2: any}) => 
-      dispatch(CreateChart({title, description, charttype, color1, color2})),
+  const onCreateChart =
+    React.useCallback(
+    ({title, description, type, color1, color2} :
+      {title: any, description: any, type: any, color1: any, color2: any}) =>
+      dispatch(CreateChart({title, description, type, color1, color2})),
     [dispatch]
-  );
+    );
 
   const onSelectCsNode = React.useCallback(
     (name:string) => 
@@ -58,18 +59,23 @@ import {ChartProps} from './types';
     [dispatch]
   );
 
-
-  function load() {
-    console.log("app component did mount");
-     dispatch(FetchCharts());
-    }
+    const load = ()=> {
+      console.log("isLoading=");
+      console.log(isLoading);
+        console.log("app component did mount");
+        dispatch(FetchCharts());
+      };    
 
   //  const onSelectCsNode = (name : any)=>{
   //     // dispatch(SlectCsNode(name));
   //   }
 
     useEffect(() => {
+      if(isLoading)
+      {
+        console.log("fetching charts");
         load();
+      }
     });
 
   // const onCreateTask = ({title, description} : {title:string, description:string}) =>{
