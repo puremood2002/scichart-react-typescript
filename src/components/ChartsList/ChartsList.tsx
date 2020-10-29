@@ -21,6 +21,8 @@ const ChartsList: React.FC<ChartListProps> = props =>
       shallowEqual
     );
 
+    console.log(333, "charts.length", charts.length);
+
 
     // console.log("ChartListCharts from state ");
     // console.log(charts);
@@ -82,10 +84,10 @@ const ChartsList: React.FC<ChartListProps> = props =>
       return idd;
     };
 
-  const createChart = (c : ChartProps) =>
+  const createChart = (c : ChartProps, index: number) =>
   {
     let ct = c.type;
-    // console.log("in create chart, type = ");
+    console.log(334, "in create chart, type = ", c);
     // console.log(ct);
     switch(ct)
     {
@@ -94,7 +96,7 @@ const ChartsList: React.FC<ChartListProps> = props =>
                 <div className="cardtitle">Line</div>
                 <Card className="cardroot">
                 <CardContent>
-                    <Line />
+                    <Line id={index} />
                 </CardContent>
             </Card>
             </div>;
@@ -105,7 +107,7 @@ const ChartsList: React.FC<ChartListProps> = props =>
                 <div className="cardtitle">Bubble</div>
                 <Card className="cardroot">
                 <CardContent>
-                    <Bubble />
+                    <Bubble id={index} />
                 </CardContent>
             </Card>
             </div>;
@@ -159,9 +161,9 @@ const ChartsList: React.FC<ChartListProps> = props =>
          </div> */}
           <div  className="flex-container wrap dashboard" id="chartslist">        
               {
-                charts.map((c : ChartProps) => 
+                charts.map((c : ChartProps, index) =>
                 {
-                  return (createChart(c));
+                  return (createChart(c, index));
                 })
               }
           </div>
