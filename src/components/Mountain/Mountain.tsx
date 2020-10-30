@@ -8,7 +8,6 @@ import { FastMountainRenderableSeries } from "scichart/Charting/Visuals/Renderab
 import { GradientParams } from "scichart/Core/GradientParams";
 import { Point } from "scichart/Core/Point";
 import { XyDataSeries } from "scichart/Charting/Model/XyDataSeries";
-import { ZoomExtentsModifier } from "scichart/Charting/ChartModifiers/ZoomExtentsModifier";
 import { RubberBandXyZoomModifier } from "scichart/Charting/ChartModifiers/RubberBandXyZoomModifier";
 import {
     EFillPaletteMode,
@@ -19,6 +18,8 @@ import {
 import { IRenderableSeries } from "scichart/Charting/Visuals/RenderableSeries/IRenderableSeries";
 import { parseColorToUIntArgb } from "scichart/utils/parseColor";
 import { MouseWheelZoomModifier } from "scichart/Charting/ChartModifiers/MouseWheelZoomModifier";
+import { ZoomPanModifier } from "scichart/Charting/ChartModifiers/ZoomPanModifier";
+import { ZoomExtentsModifier } from "scichart/Charting/ChartModifiers/ZoomExtentsModifier";
 
 import { useEffect } from 'react';
 import {ChartComponentProps} from "../../types";
@@ -90,6 +91,8 @@ import {ChartComponentProps} from "../../types";
   
       // Optional: Add some interactivity to the chart
       sciChartSurface.chartModifiers.add(new ZoomExtentsModifier());
+      sciChartSurface.chartModifiers.add(new ZoomPanModifier());
+
       sciChartSurface.chartModifiers.add(
           new RubberBandXyZoomModifier({ fill: "#228B2255", stroke: "#228B22CC", strokeThickness: 3 })
       );

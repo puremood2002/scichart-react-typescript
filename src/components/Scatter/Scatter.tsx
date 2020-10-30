@@ -8,7 +8,9 @@ import {EStrokePaletteMode,IPointMarkerPaletteProvider,TPointMarkerArgb,} from "
 import { useEffect } from 'react';
 import { NumberRange } from "scichart/Core/NumberRange";
 import {ChartComponentProps} from "../../types";
- 
+import { MouseWheelZoomModifier } from "scichart/Charting/ChartModifiers/MouseWheelZoomModifier";
+import { ZoomPanModifier } from "scichart/Charting/ChartModifiers/ZoomPanModifier";
+import { ZoomExtentsModifier } from "scichart/Charting/ChartModifiers/ZoomExtentsModifier";
 const did = Math.floor( Math.random()*100);
 
 const Scatter: React.FC<ChartComponentProps> = props => 
@@ -66,11 +68,14 @@ const Scatter: React.FC<ChartComponentProps> = props =>
 
     // Create some Xy data and assign to the Scatter Series
     const dataSeries = new XyDataSeries(wasmContext);
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 1000000; i++) {
         dataSeries.append(i, Math.sin(i * 0.1));
     }
     scatterSeries.dataSeries = dataSeries;
     sciChartSurface.renderableSeries.add(scatterSeries);
+
+    sciChartSurface.chartModifiers.add(new ZoomExtentsModifier(), new ZoomPanModifier(), new MouseWheelZoomModifier());
+
     sciChartSurface.zoomExtents();
     return { sciChartSurface, wasmContext };
   }

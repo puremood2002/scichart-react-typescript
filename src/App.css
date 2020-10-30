@@ -59,7 +59,7 @@
 .wrap    { 
   -webkit-flex-wrap: wrap;
   flex-wrap: wrap;
-}  
+  }  
 
 .btn {
   width:150px;

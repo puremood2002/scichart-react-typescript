@@ -95,10 +95,11 @@ import {ChartProps} from './types';
 
   const dashboardcontentstyle = {
        top: "60px",
-       height:"100%",  
-       left:"170px",
+       height:"100%",
+       left:"200px",
        width:"100%",
-       position:"fixed" as "fixed"
+       position:"fixed" as "fixed",
+       overflow:"scroll" as "scroll",
   };
 
 
@@ -112,7 +113,7 @@ import {ChartProps} from './types';
     padding: "30px",
     transition: "0.5s",
     height: "100%", 
-    width: "100px",
+    width: "150px",
     position: "fixed" as "fixed",
     zIndex: 1
   }

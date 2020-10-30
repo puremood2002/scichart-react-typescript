@@ -9,6 +9,8 @@ import { NumberRange } from "scichart/Core/NumberRange";
 import { EllipsePointMarker } from "scichart/Charting/Visuals/PointMarkers/EllipsePointMarker";
 import { XyDataSeries } from "scichart/Charting/Model/XyDataSeries";
 import { XyzDataSeries } from "scichart/Charting/Model/XyzDataSeries";
+import { ZoomPanModifier } from "scichart/Charting/ChartModifiers/ZoomPanModifier";
+
 import { useEffect } from 'react';
 import {ChartComponentProps} from '../../types';
 
@@ -22,7 +24,6 @@ const did = Math.random();
       initBubbleSciChart(props.color1, chartId);
    });
 
-    
   const styles = {
   div: {
       height: 300,
@@ -31,14 +32,12 @@ const did = Math.random();
 
    const element = 
     <div id={chartId} style={styles.div}></div>;
-
    return element;
 };
 
 
 async function initBubbleSciChart(color1:string, chartId:string)
 {
-
   // Create a SciChartSurface with X,Y Axis
   const { sciChartSurface, wasmContext } = await SciChartSurface.create(chartId);
   sciChartSurface.xAxes.add(new NumericAxis(wasmContext));
@@ -49,7 +48,7 @@ async function initBubbleSciChart(color1:string, chartId:string)
       stroke: "#FFFFFF",
       strokeThickness: 2
   });
-  sciChartSurface.renderableSeries.add(lineSeries);
+  // sciChartSurface.renderableSeries.add(lineSeries);
 
   const bubbleSeries = new FastBubbleRenderableSeries(wasmContext, {
     pointMarker: new EllipsePointMarker(wasmContext, {
@@ -83,11 +82,8 @@ async function initBubbleSciChart(color1:string, chartId:string)
   lineSeries.dataSeries = lineDataSeries;
   bubbleSeries.dataSeries = bubbleDataSeries;
 
-  sciChartSurface.renderableSeries.add(lineSeries);
-
   // Add some zooming and panning behaviour
-  sciChartSurface.chartModifiers.add(new ZoomExtentsModifier());
-  sciChartSurface.chartModifiers.add(new MouseWheelZoomModifier());
+  sciChartSurface.chartModifiers.add(new ZoomExtentsModifier(), new ZoomPanModifier(), new MouseWheelZoomModifier());
 
   sciChartSurface.zoomExtents();
   return { sciChartSurface, wasmContext };

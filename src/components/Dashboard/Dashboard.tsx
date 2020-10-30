@@ -40,83 +40,6 @@ const Dashboard: React.FC<DashboardProps> = props => {
      toggleForm();
   };
 
-  const dbcontentstyle={
-      paddingTop: "60px",
-      width: "100%",
-      left:"10%",
-  };
-
-  const flexcontainerstyle1 ={
-    padding: 0,
-    margin: 0,
-    listStyle: "none" as "none",
-    border: "1px solid silver",
-    msBoxOrient: "horizontal",
-    display: "-webkit-box",
-  };
-
-  const flexcontainerstyle2 ={
-    padding: 0,
-    margin: 0,
-    listStyle: "none" as "none",
-    border: "1px solid silver",
-    msBoxOrient: "horizontal",
-    display: "-moz-box",
-  };
-
-  const  flexcontainerstyle3 ={
-    padding: 0,
-    margin: 0,
-    listStyle: "none" as "none",
-    border: "1px solid silver",
-    msBoxOrient: "horizontal",
-    display: "-ms-flexbox",
-  };
-  
-
-  const  flexcontainerstyle4 ={
-    padding: 0,
-    margin: 0,
-    listStyle: "none" as "none",
-    border: "1px solid silver",
-    msBoxOrient: "horizontal",
-    display: "-moz-flex",
-  };
-
-  const flexcontainerstyle5 ={
-    padding: 0,
-    margin: 0,
-    listStyle: "none" as "none",
-    border: "1px solid silver",
-    msBoxOrient: "horizontal",
-    display: "-webkit-flex",
-  };
-
-  const flexcontainerstyle6 ={
-    padding: 0,
-    margin: 0,
-    listStyle: "none" as "none",
-    border: "1px solid silver",
-    msBoxOrient: "horizontal",
-    display: "flex" as "flex"
-  };
-
-  const wrapstyle={
-      WebkitFlexWrap: "wrap" as "wrap",
-      flexWrap: "wrap" as "wrap"
-  };
-
-  const flexcontanierstyle={
-    ...flexcontainerstyle1,
-    ...flexcontainerstyle2,
-    ...flexcontainerstyle3,
-    ...flexcontainerstyle4,
-    ...flexcontainerstyle5,
-    ...flexcontainerstyle6,
-    ...wrapstyle,
-  };
-
-
   const element = 
     <div>
         <div>
@@ -135,7 +58,7 @@ const Dashboard: React.FC<DashboardProps> = props => {
           </div>
           
         <div>
-            {<ChartsList charts={props.charts}/>}
+            {<ChartsList  charts={props.charts}/>}
         </div>
     </div>
 

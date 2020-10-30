@@ -32,8 +32,6 @@ new Date('2012.08.13').getTime() / 1000,new Date('2012.08.14').getTime() / 1000,
  const Candle: React.FC<ChartComponentProps> = props => 
  {
   const chartId = `scichart-candle${props.id}`;
-
-
     useEffect(() => {
       initSciChart(props.color1, props.color2, chartId);
    });
