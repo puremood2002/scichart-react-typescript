@@ -2,13 +2,18 @@ import * as React    from "react";
 import template from "./SettingDialog.jsx";
 import Dialog from '@material-ui/core/Dialog';
 import FormControl from '@material-ui/core/FormControl';
+import FormGroup from '@material-ui/core/FormGroup';
 import Input from '@material-ui/core/Input';
 import Select from '@material-ui/core/Select';
 import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import MenuItem from '@material-ui/core/MenuItem';
+
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Label from '@material-ui/core/InputLabel';
 import {SettingDialogProps, SettingDialogState} from '../../types';
 import  {ButtonProps} from "@material-ui/core";
 
@@ -82,51 +87,45 @@ resetForm(){
           <DialogTitle>Configuration</DialogTitle>
           <DialogContent>
           <div>
-          <form className="task-list-form" onSubmit={this.onCreateChart}>
-          <input className="form-control"
-          onChange={this.onTitleChange}
-          // onFocus={this.onTitleFocus}
-          value={this.state.title}
-          type="text"
-          placeholder="title"/>
-          <input className="form-control"
-          onChange={this.onDescriptionChange}
-          value={this.state.description}
-          type="text"
-          placeholder="description"
-          />
-          type:
-              <select className="form-control" onChange={this.onTypeChange}>
-              {/* {CHART_TYPES.map(type=>(
-                  <option key={type} value={type}>
-                      {type}
-                  </option>))} */}
-                  <option key="line" value="line">line</option>
-                  <option key="mountain" value="mountain">mountain</option>
-                  <option key="scatter" value="scatter">scatter</option>
-                  <option key="bubble" value="bubble">bubble</option>
-                  <option key="bar" value="bar">bar</option>
-                  <option key="candle" value="candle">candle</option>
-               </select>       
-               <select className="form-control" onChange={this.onColor1Changed}>
-                  <option key="blue" value="blue">blue</option>
-                  <option key="green" value="green">green</option>
-                  <option key="red" value="red">red</option>
-                  <option key="yellow" value="yellow">yellow</option>
-                  <option key="purple" value="purple">purple</option>
-               </select>  
-
-               <select className="form-control" onChange={this.onColor2Changed}>
-                  <option key="blue" value="blue">blue</option>
-                  <option key="green" value="green">green</option>
-                  <option key="red" value="red">red</option>
-                  <option key="yellow" value="yellow">yellow</option>
-                  <option key="purple" value="purple">purple</option>
-               </select>  
-              <ButtonLink variant='contained'  color='primary' type="submit">
+          <FormGroup onSubmit={this.onCreateChart}>
+            <TextField 
+            onChange={this.onTitleChange}
+            // onFocus={this.onTitleFocus}
+            value={this.state.title}
+            type="text"
+            placeholder="title"/>
+            <TextField 
+            onChange={this.onDescriptionChange}
+            value={this.state.description}
+            type="text"
+            placeholder="description"
+            />
+            <Select onChange={this.onTypeChange} defaultValue="line">
+                  <MenuItem key="line" value="line">line</MenuItem>
+                  <MenuItem key="mountain" value="mountain">mountain</MenuItem>
+                  <MenuItem key="scatter" value="scatter">scatter</MenuItem>
+                  <MenuItem key="bubble" value="bubble">bubble</MenuItem>
+                  <MenuItem key="bar" value="bar">bar</MenuItem>
+                  <MenuItem key="candle" value="candle">candle</MenuItem>
+               </Select>       
+               <Select defaultValue="blue" onChange={this.onColor1Changed}>
+                  <MenuItem key="blue" value="blue">blue</MenuItem>
+                  <MenuItem key="green" value="green">green</MenuItem>
+                  <MenuItem key="red" value="red">red</MenuItem>
+                  <MenuItem key="yellow" value="yellow">yellow</MenuItem>
+                  <MenuItem key="purple" value="purple">purple</MenuItem>
+               </Select>  
+               <Select  defaultValue="blue" onChange={this.onColor2Changed}>
+                  <MenuItem key="blue" value="blue">blue</MenuItem>
+                  <MenuItem key="green" value="green">green</MenuItem>
+                  <MenuItem key="red" value="red">red</MenuItem>
+                  <MenuItem key="yellow" value="yellow">yellow</MenuItem>
+                  <MenuItem key="purple" value="purple">purple</MenuItem>
+               </Select>  
+              <Button variant='contained'  color='primary' onClick={this.onCreateChart}>
                 Save
-            </ButtonLink>
-            </form>
+              </Button>
+            </FormGroup>
           </div>
           </DialogContent>
        </Dialog>
