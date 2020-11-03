@@ -38,8 +38,8 @@ new Date('2012.08.13').getTime() / 1000,new Date('2012.08.14').getTime() / 1000,
 
    const styles = {
     div: {
-        height: 300,
-        width:300    
+        height: 350,
+        width:350    
     }
   };
 
@@ -53,17 +53,38 @@ new Date('2012.08.13').getTime() / 1000,new Date('2012.08.14').getTime() / 1000,
   {
     const { sciChartSurface, wasmContext } = await SciChartSurface.create(chartId);
 
+    sciChartSurface.background=`white`;
+
+    let nx = new CategoryAxis(wasmContext);
+      nx.drawMajorGridLines = false;
+      nx.drawMinorGridLines = false;
+      nx.drawMajorBands = false;
+      nx.drawMinorTickLines = false;
+      nx.drawMajorTickLines = false;
+      nx.growBy = new NumberRange(0.05, 0.05);
+      sciChartSurface.xAxes.add(nx);
+
+      let ny = new NumericAxis(wasmContext, { growBy: new NumberRange(0.05, 0.05) });
+      ny.drawMajorGridLines = false;
+      ny.drawMinorGridLines = false;
+      ny.drawMajorBands = false;
+      ny.drawMajorTickLines = false;
+      ny.drawMinorTickLines = false;
+      ny.growBy = new NumberRange(0.05, 0.05);
+      ny.visibleRange = new NumberRange(1.1, 1.2);
+      ny.growBy = new NumberRange(0.1, 0.1);
+      ny.labelProvider.formatLabel = (dataValue: number) => dataValue.toFixed(3);
+
+      sciChartSurface.yAxes.add(ny);
     // Add an XAxis of type CategoryAxis - which collapses gaps in stock market data
-    const xAxis = new CategoryAxis(wasmContext);
-    xAxis.growBy = new NumberRange(0.05, 0.05);
-    sciChartSurface.xAxes.add(xAxis);
+    // const xAxis = new CategoryAxis(wasmContext);
+    // xAxis.growBy = new NumberRange(0.05, 0.05);
+    // sciChartSurface.xAxes.add(xAxis);
 
     // Create a NumericAxis on the YAxis
-    const yAxis = new NumericAxis(wasmContext);
-    yAxis.visibleRange = new NumberRange(1.1, 1.2);
-    yAxis.growBy = new NumberRange(0.1, 0.1);
-    yAxis.labelProvider.formatLabel = (dataValue: number) => dataValue.toFixed(3);
-    sciChartSurface.yAxes.add(yAxis);
+    // const yAxis = new NumericAxis(wasmContext);
+    // yAxis.labelProvider.formatLabel = (dataValue: number) => dataValue.toFixed(3);
+    // sciChartSurface.yAxes.add(yAxis);
 
     // Create a OhlcDataSeries with open, high, low, close values
     const dataSeries = new OhlcDataSeries(wasmContext, {

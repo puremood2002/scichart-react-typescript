@@ -5,7 +5,8 @@ import {XyDataSeries} from "scichart/Charting/Model/XyDataSeries";
 import {FastLineRenderableSeries} from "scichart/Charting/Visuals/RenderableSeries/FastLineRenderableSeries";
 import { useEffect } from 'react';
 import {ChartComponentProps} from "../../types";
-
+import { EAxisAlignment } from "scichart/types/AxisAlignment";
+import { NumberRange } from "scichart/Core/NumberRange";
  const Pie: React.FC<ChartComponentProps> = props => 
  {
     useEffect(() => {
@@ -14,8 +15,8 @@ import {ChartComponentProps} from "../../types";
 
    const styles = {
     div: {
-        height: 300,
-        width:300    
+        height:350,
+        width:350    
     }
   };
 
@@ -41,11 +42,24 @@ import {ChartComponentProps} from "../../types";
     // console.log("surface created")
 
     // Create an X,Y Axis and add to the chart
-    const xAxis = new NumericAxis(wasmContext);
-    const yAxis = new NumericAxis(wasmContext);
-    
-    sciChartSurface.xAxes.add(xAxis);
-    sciChartSurface.yAxes.add(yAxis);
+      let nx = new NumericAxis(wasmContext);
+      nx.drawMajorGridLines = false;
+      nx.drawMinorGridLines = false;
+      nx.drawMajorBands = false;
+      nx.drawMinorTickLines = false;
+      nx.drawMajorTickLines = false;
+      nx.axisAlignment = EAxisAlignment.Top;
+      sciChartSurface.xAxes.add(nx);
+
+      let ny = new NumericAxis(wasmContext, { growBy: new NumberRange(0.05, 0.05) });
+      ny.drawMajorGridLines = false;
+      ny.drawMinorGridLines = false;
+      ny.drawMajorBands = false;
+      ny.drawMajorTickLines = false;
+      ny.drawMinorTickLines = false;
+      ny.axisAlignment = EAxisAlignment.Left;
+      ny.growBy = new NumberRange(0.05, 0.05);
+      sciChartSurface.yAxes.add(ny);
 
     for (let seriesCount = 0; seriesCount < 100; seriesCount++) {        
       const xyDataSeries = new XyDataSeries(wasmContext);

@@ -8,6 +8,7 @@ import { ZoomPanModifier } from "scichart/Charting/ChartModifiers/ZoomPanModifie
 import { MouseWheelZoomModifier } from "scichart/Charting/ChartModifiers/MouseWheelZoomModifier";
 import { ZoomExtentsModifier } from "scichart/Charting/ChartModifiers/ZoomExtentsModifier";
 import {ChartComponentProps} from "../../types";
+import { NumberRange } from "scichart/Core/NumberRange";
 
  const Line: React.FC<ChartComponentProps> = props => 
  {
@@ -20,8 +21,8 @@ import {ChartComponentProps} from "../../types";
 
    const styles = {
     div: {
-        height: 300,
-        width:300    
+        height:350,
+        width:350    
     }
   };
 
@@ -48,11 +49,27 @@ import {ChartComponentProps} from "../../types";
     // console.log("surface created")
 
     // Create an X,Y Axis and add to the chart
-    const xAxis = new NumericAxis(wasmContext);
-    const yAxis = new NumericAxis(wasmContext);
-    
-    sciChartSurface.xAxes.add(xAxis);
-    sciChartSurface.yAxes.add(yAxis);
+    let nx = new NumericAxis(wasmContext);
+      nx.drawMajorGridLines = false;
+      nx.drawMinorGridLines = false;
+      nx.drawMajorBands = false;
+      nx.drawMinorTickLines = false;
+      nx.drawMajorTickLines = false;
+      nx.growBy = new NumberRange(0.05, 0.05);
+      sciChartSurface.xAxes.add(nx);
+
+      let ny = new NumericAxis(wasmContext, { growBy: new NumberRange(0.05, 0.05) });
+      ny.drawMajorGridLines = false;
+      ny.drawMinorGridLines = false;
+      ny.drawMajorBands = false;
+      ny.drawMajorTickLines = false;
+      ny.drawMinorTickLines = false;
+      ny.growBy = new NumberRange(0.05, 0.05);
+      ny.visibleRange = new NumberRange(1.1, 1.2);
+      ny.growBy = new NumberRange(0.1, 0.1);
+      ny.labelProvider.formatLabel = (dataValue: number) => dataValue.toFixed(3);
+
+      sciChartSurface.yAxes.add(ny);
 
     for (let seriesCount = 0; seriesCount < 100; seriesCount++) {        
       const xyDataSeries = new XyDataSeries(wasmContext);

@@ -105,7 +105,7 @@ resetForm(){
                   <MenuItem key="mountain" value="mountain">mountain</MenuItem>
                   <MenuItem key="scatter" value="scatter">scatter</MenuItem>
                   <MenuItem key="bubble" value="bubble">bubble</MenuItem>
-                  <MenuItem key="bar" value="bar">bar</MenuItem>
+                  {/* <MenuItem key="bar" value="bar">bar</MenuItem> */}
                   <MenuItem key="candle" value="candle">candle</MenuItem>
                </Select>       
                <Select defaultValue="blue" onChange={this.onColor1Changed}>

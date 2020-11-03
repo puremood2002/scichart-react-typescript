@@ -35,8 +35,8 @@ import {ChartComponentProps} from "../../types";
 
    const styles = {
     div: {
-        height: 300,
-        width:300    
+        height:350,
+        width:350    
     }
   };
 
@@ -50,20 +50,40 @@ import {ChartComponentProps} from "../../types";
   {
       // Create a SciChartSurface
       const { wasmContext, sciChartSurface } = await SciChartSurface.create(chartId);
+      sciChartSurface.background = `white`;
+
+      let nx = new NumericAxis(wasmContext);
+      nx.drawMajorGridLines = false;
+      nx.drawMinorGridLines = false;
+      nx.drawMajorBands = false;
+      nx.drawMinorTickLines = false;
+      nx.drawMajorTickLines = false;
+      nx.axisAlignment = EAxisAlignment.Top;
+      sciChartSurface.xAxes.add(nx);
+
+      let ny = new NumericAxis(wasmContext, { growBy: new NumberRange(0.05, 0.05) });
+      ny.drawMajorGridLines = false;
+      ny.drawMinorGridLines = false;
+      ny.drawMajorBands = false;
+      ny.drawMajorTickLines = false;
+      ny.drawMinorTickLines = false;
+      ny.axisAlignment = EAxisAlignment.Left;
+      ny.growBy = new NumberRange(0.05, 0.05);
+      sciChartSurface.yAxes.add(ny);
 
       // Create an XAxis and YAxis
-      sciChartSurface.xAxes.add(
-          new NumericAxis(wasmContext, {
-              axisAlignment: EAxisAlignment.Top,
-          })
-      );
-      sciChartSurface.yAxes.add(
-          new NumericAxis(wasmContext, {
-              axisAlignment: EAxisAlignment.Left,
-              growBy: new NumberRange(0.05, 0.05),
-              labelFormat: ENumericFormat.Decimal_2,
-          })
-      );
+    //   sciChartSurface.xAxes.add(
+    //       new NumericAxis(wasmContext, {
+    //           axisAlignment: EAxisAlignment.Top,
+    //       })
+    //   );
+    //   sciChartSurface.yAxes.add(
+    //       new NumericAxis(wasmContext, {
+    //           axisAlignment: EAxisAlignment.Left,
+    //           growBy: new NumberRange(0.05, 0.05),
+    //           labelFormat: ENumericFormat.Decimal_2,
+    //       })
+    //   );
   
       // Create a Mountain Series and add to the chart
       const mountainSeries = new FastMountainRenderableSeries(wasmContext, {

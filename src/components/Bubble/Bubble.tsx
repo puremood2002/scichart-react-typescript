@@ -26,8 +26,8 @@ const did = Math.random();
 
   const styles = {
   div: {
-      height: 300,
-      width:300    
+      height: 350,
+      width:350    
   }};
 
    const element = 
@@ -40,8 +40,22 @@ async function initBubbleSciChart(color1:string, chartId:string)
 {
   // Create a SciChartSurface with X,Y Axis
   const { sciChartSurface, wasmContext } = await SciChartSurface.create(chartId);
-  sciChartSurface.xAxes.add(new NumericAxis(wasmContext));
-  sciChartSurface.yAxes.add(new NumericAxis(wasmContext, { growBy: new NumberRange(0.05, 0.05) }));
+  let nx = new NumericAxis(wasmContext);
+      nx.drawMajorGridLines = false;
+      nx.drawMinorGridLines = false;
+      nx.drawMajorBands = false;
+      nx.drawMinorTickLines = false;
+      nx.drawMajorTickLines = false;
+      sciChartSurface.xAxes.add(nx);
+
+      let ny = new NumericAxis(wasmContext, { growBy: new NumberRange(0.05, 0.05) });
+      ny.drawMajorGridLines = false;
+      ny.drawMinorGridLines = false;
+      ny.drawMajorBands = false;
+      ny.drawMajorTickLines = false;
+      ny.drawMinorTickLines = false;
+      ny.growBy = new NumberRange(0.05, 0.05);
+      sciChartSurface.yAxes.add(ny);
 
   // Line Series
   const lineSeries = new FastLineRenderableSeries(wasmContext, {

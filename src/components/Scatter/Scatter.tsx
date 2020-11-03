@@ -23,8 +23,8 @@ const Scatter: React.FC<ChartComponentProps> = props =>
 
    const styles = {
     div: {
-        height: 300,
-        width:300    
+        height: 350,
+        width:350    
     }
   };
 
@@ -43,16 +43,27 @@ const Scatter: React.FC<ChartComponentProps> = props =>
     // Set this license key once in your app before calling SciChartSurface.create, e.g.
     SciChartSurface.setRuntimeLicenseKey("WcnXtRLwGVtfNA59XwvDQA11wSpykEA1NEpARELTB+Aq6kf2nJSK9GgWOKvCJA6P+jNg2xcVLw3oM7EdIIi0MJtvorAARa9au01LV/xLJ1jdOeDeMXpw/eT5ajSpukKcJXHe97tzsBzfB6wRziW6LgNjuB3ykFIk+tGvOmJyhRewYjF+FCSb/0q8Bq8em4lNmOfONzJz5spVWvvfHdn5iIYfvv00hhduow4bFzxXnRucLtHl2Bm1yFvrVYe0UOQcFpJ9DZ4S96GLhSw9SIkUSAy/C5r3FvdCkX8d40ehAg+n78w92QXwh4B41xF0f+9OHpeV3byaZDNr5L1afdS3qCahoyeYEnmt4hYdmGH3uS+KtC29bAcVXUqNA9P3pESndALjlEimVNfr6RrfKEY3jroWtPXEx2Oo9XcD3ZLUJiRrjDL0lTf/3a6+KN1xsl2K2eymqyo9Wggy7Mf3WymmvURil7SaxE3xBP5LWWGPMEXvf9m7vXGz6fkEtsZhdEC3HQprBwEGyV1zPdLxDqtWO9ltEBEBlS2FrzJ3984/zSp9sbc=");
 
-    // Create the SciChartSurface in the div 'scichart-root'
+    // Create the SciChartSurface in the div 'scichart-root
     // The SciChartSurface, and webassembly context 'wasmContext' are paired. This wasmContext
     // instance must be passed to other types that exist on the same surface.
     const {sciChartSurface, wasmContext} = await SciChartSurface.create(chartId);
 
     // console.log("scatter urface created")
-
-    sciChartSurface.xAxes.add(new NumericAxis(wasmContext));
-    sciChartSurface.yAxes.add(new NumericAxis(wasmContext, { growBy: new NumberRange(0.05, 0.05) }));
-
+    sciChartSurface.background = `white`;
+    let nx = new NumericAxis(wasmContext);
+    nx.drawMajorGridLines = false;
+    nx.drawMinorGridLines = false;
+    nx.drawMajorBands = false;
+    nx.drawMinorTickLines = false;
+    nx.drawMajorTickLines = false;
+    sciChartSurface.xAxes.add(nx);
+    let ny = new NumericAxis(wasmContext, { growBy: new NumberRange(0.05, 0.05) });
+    ny.drawMajorGridLines = false;
+    ny.drawMinorGridLines = false;
+    ny.drawMajorBands = false;
+    ny.drawMajorTickLines = false;
+    ny.drawMinorTickLines = false;
+    sciChartSurface.yAxes.add(ny);
     // Create a Scatter Series with EllipsePointMarker
     // Multiple point-marker types are available including Square, Triangle, Cross and Sprite (custom)
     const scatterSeries = new XyScatterRenderableSeries(wasmContext, {

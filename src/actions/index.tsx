@@ -44,8 +44,8 @@ export const csCharts : CsChartProps[]
                 id:uniqueId(),
                 type:'scatter',
                 title:'rate vs thick',
-                color1:'purple',
-                color2:'olive',
+                color1:'green',
+                color2:'green',
                 description:'work hard',
                 status:'done'
             },
@@ -53,8 +53,8 @@ export const csCharts : CsChartProps[]
                 id:uniqueId(),
                 type:'candle',
                 title:'data sample box',
-                color1:'darkslateblue',
-                color2:'yellow',
+                color1:'blue',
+                color2:'blue',
                 description:'light it',
                 status:'done'
             },
@@ -62,8 +62,8 @@ export const csCharts : CsChartProps[]
               id:uniqueId(),
               type:'bubble',
               title:'error distribution',
-              color1:'red',
-              color2:'yellow',
+              color1:'purple',
+              color2:'purple',
               description:'read css official doc',
               status:"Unstarted"
             },
@@ -94,8 +94,8 @@ export const csCharts : CsChartProps[]
                 id:uniqueId(),
                 type:'scatter',
                 title:'rate vs thick',
-                color1:'red',
-                color2:'yellow',
+                color1:'blue',
+                color2:'blue',
                 description:'work hard',
                 status:'done'
             }
