@@ -21,14 +21,10 @@ import {IRenderableSeries} from "scichart/Charting/Visuals/RenderableSeries/IRen
 
 import { useEffect } from 'react';
 import {ChartComponentProps} from "../../types";
+import { closeValues, dateValues, highValues, lowValues, openValues } from "./data";
+import { ENumericFormat } from "scichart/Charting/Visuals/Axis/LabelProvider/NumericLabelProvider";
 
 const did = Math.random();
-const closeValues = [1,3,5,2,4,6];
-const openValues = [1.2,4.3,2.1,10,5,5];
-const highValues = [10,3,9,2,7,11];
-const lowValues = [1,1.1,2.1,0, 0.1,3];
-const dateValues=[new Date('2012.08.10').getTime() / 1000,new Date('2012.08.11').getTime() / 1000,new Date('2012.08.12').getTime() / 1000,
-new Date('2012.08.13').getTime() / 1000,new Date('2012.08.14').getTime() / 1000, new Date('2012.08.15').getTime() / 1000]
  const Candle: React.FC<ChartComponentProps> = props => 
  {
   const chartId = `scichart-candle${props.id}`;
@@ -61,18 +57,28 @@ new Date('2012.08.13').getTime() / 1000,new Date('2012.08.14').getTime() / 1000,
       nx.drawMajorBands = false;
       nx.drawMinorTickLines = false;
       nx.drawMajorTickLines = false;
-      nx.growBy = new NumberRange(0.05, 0.05);
+      nx.autoTicks = false;
+      // nx.growBy = new NumberRange(0.05, 0.05);
+      nx.labelProvider.numericFormat = ENumericFormat.Date_DDMM
+      nx.maxAutoTicks=3;
+      // nx.labelProvider.formatLabel = (unixTimestamp) => {
+      //   const day =  new Date(unixTimestamp * 1000).toLocaleDateString("en-GB", {
+      //     day: "numeric"
+      //   });
+      //   return `${day}d`
+      // }
       sciChartSurface.xAxes.add(nx);
 
-      let ny = new NumericAxis(wasmContext, { growBy: new NumberRange(0.05, 0.05) });
+
+      let ny = new NumericAxis(wasmContext);
       ny.drawMajorGridLines = false;
       ny.drawMinorGridLines = false;
       ny.drawMajorBands = false;
       ny.drawMajorTickLines = false;
       ny.drawMinorTickLines = false;
-      ny.growBy = new NumberRange(0.05, 0.05);
+      // ny.growBy = new NumberRange(0.05, 0.05);
       ny.visibleRange = new NumberRange(1.1, 1.2);
-      ny.growBy = new NumberRange(0.1, 0.1);
+      // ny.growBy = new NumberRange(0.1, 0.1);
       ny.labelProvider.formatLabel = (dataValue: number) => dataValue.toFixed(3);
 
       sciChartSurface.yAxes.add(ny);

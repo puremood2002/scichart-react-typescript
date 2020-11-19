@@ -9,6 +9,7 @@ import { MouseWheelZoomModifier } from "scichart/Charting/ChartModifiers/MouseWh
 import { ZoomExtentsModifier } from "scichart/Charting/ChartModifiers/ZoomExtentsModifier";
 import {ChartComponentProps} from "../../types";
 import { NumberRange } from "scichart/Core/NumberRange";
+import { ENumericFormat } from "scichart/Charting/Visuals/Axis/LabelProvider/NumericLabelProvider";
 
  const Line: React.FC<ChartComponentProps> = props => 
  {
@@ -45,6 +46,7 @@ import { NumberRange } from "scichart/Core/NumberRange";
     // The SciChartSurface, and webassembly context 'wasmContext' are paired. This wasmContext
     // instance must be passed to other types that exist on the same surface.
     const {sciChartSurface, wasmContext} = await SciChartSurface.create(chartId);
+    sciChartSurface.background = `white`;
 
     // console.log("surface created")
 
@@ -56,9 +58,11 @@ import { NumberRange } from "scichart/Core/NumberRange";
       nx.drawMinorTickLines = false;
       nx.drawMajorTickLines = false;
       nx.growBy = new NumberRange(0.05, 0.05);
+      nx.labelProvider.numericFormat = ENumericFormat.Decimal_0
+
       sciChartSurface.xAxes.add(nx);
 
-      let ny = new NumericAxis(wasmContext, { growBy: new NumberRange(0.05, 0.05) });
+      let ny = new NumericAxis(wasmContext);
       ny.drawMajorGridLines = false;
       ny.drawMinorGridLines = false;
       ny.drawMajorBands = false;

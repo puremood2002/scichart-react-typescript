@@ -53,7 +53,8 @@ module.exports = {
         }),
         new webpack.IgnorePlugin(/(fs)/)
     ],
-    // devServer: {
-    //     contentBase: path.resolve(__dirname, "build")
-    // }
+    devServer: {
+        // contentBase: path.resolve(__dirname, "build")
+        disableHostCheck: true
+    }
 };

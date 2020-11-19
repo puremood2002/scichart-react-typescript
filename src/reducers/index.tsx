@@ -48,6 +48,7 @@ const initialState : TopState= {
         };
       }
       if(action.type === FETCH_CHARTS_SUCCEEDED){
+        debugger;
           console.log("reducer = fetch charts succeeded");
           // console.log(action.charts);
         return {
@@ -65,6 +66,7 @@ const initialState : TopState= {
       }
       if(action.type===CREATE_CHART_SUCCEDED)
       {
+        debugger;
         console.log("in reducing - create_chart_succeeded");
         console.log(action);
         const cht : ChartProps = {

@@ -13,6 +13,7 @@ import { ZoomPanModifier } from "scichart/Charting/ChartModifiers/ZoomPanModifie
 
 import { useEffect } from 'react';
 import {ChartComponentProps} from '../../types';
+import { ENumericFormat } from "scichart/Charting/Visuals/Axis/LabelProvider/NumericLabelProvider";
 
 
 const did = Math.random();
@@ -40,15 +41,18 @@ async function initBubbleSciChart(color1:string, chartId:string)
 {
   // Create a SciChartSurface with X,Y Axis
   const { sciChartSurface, wasmContext } = await SciChartSurface.create(chartId);
+  sciChartSurface.background = `white`;
+
   let nx = new NumericAxis(wasmContext);
       nx.drawMajorGridLines = false;
       nx.drawMinorGridLines = false;
       nx.drawMajorBands = false;
       nx.drawMinorTickLines = false;
       nx.drawMajorTickLines = false;
+      nx.labelProvider.numericFormat = ENumericFormat.Decimal_0
       sciChartSurface.xAxes.add(nx);
 
-      let ny = new NumericAxis(wasmContext, { growBy: new NumberRange(0.05, 0.05) });
+      let ny = new NumericAxis(wasmContext);
       ny.drawMajorGridLines = false;
       ny.drawMinorGridLines = false;
       ny.drawMajorBands = false;
@@ -62,7 +66,7 @@ async function initBubbleSciChart(color1:string, chartId:string)
       stroke: "#FFFFFF",
       strokeThickness: 2
   });
-  // sciChartSurface.renderableSeries.add(lineSeries);
+  sciChartSurface.renderableSeries.add(lineSeries);
 
   const bubbleSeries = new FastBubbleRenderableSeries(wasmContext, {
     pointMarker: new EllipsePointMarker(wasmContext, {

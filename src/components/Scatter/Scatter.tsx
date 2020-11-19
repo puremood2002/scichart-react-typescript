@@ -11,6 +11,7 @@ import {ChartComponentProps} from "../../types";
 import { MouseWheelZoomModifier } from "scichart/Charting/ChartModifiers/MouseWheelZoomModifier";
 import { ZoomPanModifier } from "scichart/Charting/ChartModifiers/ZoomPanModifier";
 import { ZoomExtentsModifier } from "scichart/Charting/ChartModifiers/ZoomExtentsModifier";
+import { ENumericFormat } from "scichart/Charting/Visuals/Axis/LabelProvider/NumericLabelProvider";
 const did = Math.floor( Math.random()*100);
 
 const Scatter: React.FC<ChartComponentProps> = props => 
@@ -56,8 +57,10 @@ const Scatter: React.FC<ChartComponentProps> = props =>
     nx.drawMajorBands = false;
     nx.drawMinorTickLines = false;
     nx.drawMajorTickLines = false;
+    nx.labelProvider.numericFormat = ENumericFormat.Decimal_0
+    nx.maxAutoTicks = 5;
     sciChartSurface.xAxes.add(nx);
-    let ny = new NumericAxis(wasmContext, { growBy: new NumberRange(0.05, 0.05) });
+    let ny = new NumericAxis(wasmContext);
     ny.drawMajorGridLines = false;
     ny.drawMinorGridLines = false;
     ny.drawMajorBands = false;

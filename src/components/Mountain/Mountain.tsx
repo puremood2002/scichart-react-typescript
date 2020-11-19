@@ -3,18 +3,12 @@ import { SciChartSurface } from "scichart";
 import { NumericAxis } from "scichart/Charting/Visuals/Axis/NumericAxis";
 import { EAxisAlignment } from "scichart/types/AxisAlignment";
 import { NumberRange } from "scichart/Core/NumberRange";
-import { ENumericFormat } from "scichart/Charting/Visuals/Axis/LabelProvider/NumericLabelProvider";
 import { FastMountainRenderableSeries } from "scichart/Charting/Visuals/RenderableSeries/FastMountainRenderableSeries";
 import { GradientParams } from "scichart/Core/GradientParams";
 import { Point } from "scichart/Core/Point";
 import { XyDataSeries } from "scichart/Charting/Model/XyDataSeries";
 import { RubberBandXyZoomModifier } from "scichart/Charting/ChartModifiers/RubberBandXyZoomModifier";
-import {
-    EFillPaletteMode,
-    EStrokePaletteMode,
-    IFillPaletteProvider,
-    IStrokePaletteProvider,
-} from "scichart/Charting/Model/IPaletteProvider";
+
 import { IRenderableSeries } from "scichart/Charting/Visuals/RenderableSeries/IRenderableSeries";
 import { parseColorToUIntArgb } from "scichart/utils/parseColor";
 import { MouseWheelZoomModifier } from "scichart/Charting/ChartModifiers/MouseWheelZoomModifier";
@@ -23,6 +17,7 @@ import { ZoomExtentsModifier } from "scichart/Charting/ChartModifiers/ZoomExtent
 
 import { useEffect } from 'react';
 import {ChartComponentProps} from "../../types";
+import { ENumericFormat } from "scichart/Charting/Visuals/Axis/LabelProvider/NumericLabelProvider";
 
  const Mountain: React.FC<ChartComponentProps> = props => 
  {
@@ -45,7 +40,7 @@ import {ChartComponentProps} from "../../types";
 
    return element;
 };
-  
+
   async function initSciChart(color1:string, color2:string, chartId:string)
   {
       // Create a SciChartSurface
@@ -59,9 +54,11 @@ import {ChartComponentProps} from "../../types";
       nx.drawMinorTickLines = false;
       nx.drawMajorTickLines = false;
       nx.axisAlignment = EAxisAlignment.Top;
+      nx.labelProvider.numericFormat = ENumericFormat.Decimal_0
+
       sciChartSurface.xAxes.add(nx);
 
-      let ny = new NumericAxis(wasmContext, { growBy: new NumberRange(0.05, 0.05) });
+      let ny = new NumericAxis(wasmContext);
       ny.drawMajorGridLines = false;
       ny.drawMinorGridLines = false;
       ny.drawMajorBands = false;

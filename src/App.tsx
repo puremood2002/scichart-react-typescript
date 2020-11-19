@@ -144,7 +144,7 @@ import {ChartProps} from './types';
     const element = 
     <div id="topapp">
         <header style={headerstyle}>
-          Dashboard Prototype
+          SciChart.js Dashboard Prototype
         </header>
         <main style={containerstyle}>
             {error &&

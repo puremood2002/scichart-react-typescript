@@ -17,5 +17,6 @@ export function fetchCharts()
 
 export function createChart( chart : any):Promise<any>
 {
+    debugger;
     return client.put('/charts', chart);
 }
