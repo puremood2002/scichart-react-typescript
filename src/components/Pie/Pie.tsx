@@ -86,6 +86,6 @@ import { NumberRange } from "scichart/Core/NumberRange";
   }
 }
 
-  
+   
 export default Pie;
 

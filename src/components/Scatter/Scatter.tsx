@@ -96,7 +96,7 @@ const Scatter: React.FC<ChartComponentProps> = props =>
     sciChartSurface.chartModifiers.add(rubberBandZoom);
     sciChartSurface.chartModifiers.add(mouseWheelZoom);
     sciChartSurface.chartModifiers.add(zoomExtentsModifier);
-      
+       
     sciChartSurface.zoomExtents();
     return { sciChartSurface, wasmContext };
   }

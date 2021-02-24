@@ -24,7 +24,7 @@ import {ChartComponentProps} from "../../types";
 import { closeValues, dateValues, highValues, lowValues, openValues } from "./data";
 import { ENumericFormat } from "scichart/Charting/Visuals/Axis/LabelProvider/NumericLabelProvider";
 import { RubberBandXyZoomModifier } from "scichart/Charting/ChartModifiers/RubberBandXyZoomModifier";
-  
+   
 const did = Math.random();
  const Candle: React.FC<ChartComponentProps> = props => 
  {
