@@ -43,6 +43,8 @@ import { ENumericFormat } from "scichart/Charting/Visuals/Axis/LabelProvider/Num
 
   async function initSciChart(color1:string, color2:string, chartId:string)
   {
+    SciChartSurface.setRuntimeLicenseKey("WcnXtRLwGVtfNA59XwvDQA11wSpykEA1NEpARELTB+Aq6kf2nJSK9GgWOKvCJA6P+jNg2xcVLw3oM7EdIIi0MJtvorAARa9au01LV/xLJ1jdOeDeMXpw/eT5ajSpukKcJXHe97tzsBzfB6wRziW6LgNjuB3ykFIk+tGvOmJyhRewYjF+FCSb/0q8Bq8em4lNmOfONzJz5spVWvvfHdn5iIYfvv00hhduow4bFzxXnRucLtHl2Bm1yFvrVYe0UOQcFpJ9DZ4S96GLhSw9SIkUSAy/C5r3FvdCkX8d40ehAg+n78w92QXwh4B41xF0f+9OHpeV3byaZDNr5L1afdS3qCahoyeYEnmt4hYdmGH3uS+KtC29bAcVXUqNA9P3pESndALjlEimVNfr6RrfKEY3jroWtPXEx2Oo9XcD3ZLUJiRrjDL0lTf/3a6+KN1xsl2K2eymqyo9Wggy7Mf3WymmvURil7SaxE3xBP5LWWGPMEXvf9m7vXGz6fkEtsZhdEC3HQprBwEGyV1zPdLxDqtWO9ltEBEBlS2FrzJ3984/zSp9sbc=");
+
       // Create a SciChartSurface
       const { wasmContext, sciChartSurface } = await SciChartSurface.create(chartId);
       sciChartSurface.background = `white`;
@@ -105,16 +107,14 @@ import { ENumericFormat } from "scichart/Charting/Visuals/Axis/LabelProvider/Num
           dataSeries.append(i, Math.abs(Math.sin(i * STEP)));
       }
       mountainSeries.dataSeries = dataSeries;
-  
-      // Optional: Add some interactivity to the chart
-      sciChartSurface.chartModifiers.add(new ZoomExtentsModifier());
-      sciChartSurface.chartModifiers.add(new ZoomPanModifier());
+        
+      const rubberBandZoom = new RubberBandXyZoomModifier();
+    const mouseWheelZoom = new MouseWheelZoomModifier();
+    const zoomExtentsModifier = new ZoomExtentsModifier();
+    sciChartSurface.chartModifiers.add(rubberBandZoom);
+    sciChartSurface.chartModifiers.add(mouseWheelZoom);
+    sciChartSurface.chartModifiers.add(zoomExtentsModifier);
 
-      sciChartSurface.chartModifiers.add(
-          new RubberBandXyZoomModifier({ fill: "#228B2255", stroke: "#228B22CC", strokeThickness: 3 })
-      );
-      sciChartSurface.chartModifiers.add(new MouseWheelZoomModifier());
-  
       sciChartSurface.zoomExtents();
       return { wasmContext, sciChartSurface };
   }

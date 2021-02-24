@@ -10,6 +10,7 @@ import { ZoomExtentsModifier } from "scichart/Charting/ChartModifiers/ZoomExtent
 import {ChartComponentProps} from "../../types";
 import { NumberRange } from "scichart/Core/NumberRange";
 import { ENumericFormat } from "scichart/Charting/Visuals/Axis/LabelProvider/NumericLabelProvider";
+import { RubberBandXyZoomModifier } from "scichart/Charting/ChartModifiers/RubberBandXyZoomModifier";
 
  const Line: React.FC<ChartComponentProps> = props => 
  {
@@ -93,8 +94,12 @@ import { ENumericFormat } from "scichart/Charting/Visuals/Axis/LabelProvider/Num
           strokeThickness:2
       });
       sciChartSurface.renderableSeries.add(lineSeries);
-      sciChartSurface.chartModifiers.add(new ZoomExtentsModifier(), new ZoomPanModifier(), new MouseWheelZoomModifier());
-      
+   const rubberBandZoom = new RubberBandXyZoomModifier();
+    const mouseWheelZoom = new MouseWheelZoomModifier();
+    const zoomExtentsModifier = new ZoomExtentsModifier();
+    sciChartSurface.chartModifiers.add(rubberBandZoom);
+    sciChartSurface.chartModifiers.add(mouseWheelZoom);
+    sciChartSurface.chartModifiers.add(zoomExtentsModifier);
       sciChartSurface.zoomExtents();
       return { sciChartSurface, wasmContext };
     // That's it! You just created your first SciChartSurface!
