@@ -106,6 +106,6 @@ async function initBubbleSciChart(color1:string, chartId:string)
   sciChartSurface.zoomExtents();
   return { sciChartSurface, wasmContext };
 };
-
+  
 export default Bubble;
 

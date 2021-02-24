@@ -18,7 +18,7 @@ import { ZoomExtentsModifier } from "scichart/Charting/ChartModifiers/ZoomExtent
 import { useEffect } from 'react';
 import {ChartComponentProps} from "../../types";
 import { ENumericFormat } from "scichart/Charting/Visuals/Axis/LabelProvider/NumericLabelProvider";
-
+  
  const Mountain: React.FC<ChartComponentProps> = props => 
  {
 

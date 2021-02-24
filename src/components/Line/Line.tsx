@@ -11,7 +11,7 @@ import {ChartComponentProps} from "../../types";
 import { NumberRange } from "scichart/Core/NumberRange";
 import { ENumericFormat } from "scichart/Charting/Visuals/Axis/LabelProvider/NumericLabelProvider";
 import { RubberBandXyZoomModifier } from "scichart/Charting/ChartModifiers/RubberBandXyZoomModifier";
-
+  
  const Line: React.FC<ChartComponentProps> = props => 
  {
   const chartId = `scichart-line${props.id}`;
